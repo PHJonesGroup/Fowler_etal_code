@@ -3,8 +3,8 @@
  This pipeline is designed to find significant gRNA enrichment/depletion accounting for both FDR and FNR rates. This is achieved by calculating the likelihood of the observed gRNA fold change for each gene differing from the distribution of the set of true neutral control gRNAs in the screen.
 
 ## Inputs: <br />
-    raw counts <br />
-    list of controls/ zero expressed genes (zGE) names <br />
+raw counts <br />
+list of controls/ zero expressed genes (zGE) names <br />
 
 ## Module 1
 Normalise raw count data as proportion per million <br />
@@ -19,4 +19,4 @@ Determine significant gRNA enrichment/depletion accounting for both FDR and FNR 
 
 ## Running the python script
 Before running the script, ensure that the config.yaml is populated.
-python3 targeted_CRISPR.py   
+ python3 targeted_CRISPR.py   
