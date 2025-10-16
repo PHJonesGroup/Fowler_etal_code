@@ -1,0 +1,46 @@
+import matplotlib.pyplot as plt
+import os 
+
+def normalise_prop(ssc, raw_ind, output_dir):
+    """
+    Normalise counts per column as [ count_j / sum(counts) * 1,000,000 ] + ssc offset.
+    ssc is a small offset added to avoid zeros (e.g., 1 or 0.01).
+
+    Parameters:
+    - ssc: scalar offset added to all values after scaling
+    - raw_ind: pandas DataFrame, with numeric count columns at positions 3:6 
+
+    Returns:
+    - norm_dat: numpy array with normalised data
+    """
+
+    # Extract columns 3 to 6 
+    datc = raw_ind.iloc[:, 2:6].to_numpy()  # shape: (rows, 4)
+
+    sn1 = datc.sum(axis=0)  # sum per column (raw counts)
+
+    # Normalisation: (count / sum_counts) * 1,000,000 + ssc offset
+    sc = datc.sum(axis=0)
+    norm_dat = ssc + 1_000_000 * datc / sc
+
+    sn = norm_dat.sum(axis=0)  # sum per column (normalised)
+
+    # Plot bar charts
+    plt.figure(figsize=(8, 6))
+
+    plt.subplot(2, 1, 1)
+    plt.bar(range(len(sn1)), sn1, width=0.3)
+    plt.title('Raw WT validation all gRNAs')
+    plt.xticks([])
+    
+    plt.subplot(2, 1, 2)
+    plt.bar(range(len(sn)), sn, width=0.3)
+    plt.title('Normalized WT validation all gRNAs')
+    plt.xticks(range(len(sn)), ['T0F', 'T1F', 'T0M', 'T1M'])
+    plt.xlabel('Conditions')
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, "gRNA_counts_normalisation"), dpi=300, bbox_inches="tight")
+    plt.close()
+
+    return norm_dat
