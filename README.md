@@ -57,7 +57,21 @@ Compute z for Targets and all CTRL, based on mean and std of zGE CTRL <br />
 Determine significant gRNA enrichment/depletion accounting for both FDR and FNR rates <br />
 
 ## Running the python script
-Before running the script, ensure that the config.yaml is populated.
-```
-python3 targeted_CRISPR.py   
-```
+To run on your own data:
+
+1. Copy the example config: `cp config.yaml my_config.yaml`
+2. Edit the parameters (see the table below).
+3. Run: `python3 targeted_CRISPR.py --config my_config.yaml`
+
+### Configuration parameters
+
+| Parameter        | Description                                       | Example                  |
+|------------------|---------------------------------------------------|--------------------------|
+| `input_counts`   | Path to the counts CSV                            | `demo_data/WT_....csv`   |
+| `input_controls` | Path to the control genes CSV                     | `demo_data/genes_....csv`|
+| `output_dir`     | Directory where results are written              | `output`                 |
+| `index_scheme`   | 2 = use both replicates; 1 = single replicate    | `2`                      |
+| `d`              | Number of gRNAs per gene                          | `4`                      |
+| `alf`            | Significance level (tail of the distribution)     | `0.06`                   |
+| `pat1`, `pat2`   | String patterns used to filter genes              | `'chr'`, `'Non'`         |
+| `cond1`, `cond2` | Condition labels (e.g. F / M)                     | `'F'`, `'M'`             |

@@ -1,7 +1,7 @@
 # -------------------- Parameters --------------------
 
-input_counts : "data_input/WT_valid_may2025_2.csv"
-input_controls : "data_input/genes_zGE_official.csv"
+input_counts : "demo_data/WT_valid_may2025_2.csv"
+input_controls : "demo_data/genes_zGE_official.csv"
 output_dir : "output"
 index_scheme : 2  # both replicas if 2; 1 if only one replica
 d       : 4  # number of gRNAs per gene
