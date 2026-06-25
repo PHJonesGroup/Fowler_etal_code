@@ -2,15 +2,18 @@
 
 input_counts : "demo_data/T_norm_T0T1_indiv_WT_May_2.csv"
 input_controls : "demo_data/genes_zGE_official.csv"
-output_dir : "output"
+output_dir : "output_test"
 index_scheme : 2  # both replicas if 2; 1 if only one replica
 d       : 4  # number of gRNAs per gene
-ssc     : 1 #small sample correction count
+ssc     : 1 # small sample correction count
 alf     : 0.06  # significance level of right-left tail of distribution
 st      : -20
 en      : 10
 step    : 0.05
 start_end : [st, en]
+sfdr_corr : 0.0001
+thr_lfchz : 1.7 # LCF threshold
+thr_lfcdz : -1.7 # LCF threshold
 
 # Patterns for filtering 
 pat1    : 'chr'
@@ -18,16 +21,7 @@ pat2    : 'Non'
 n       : 3
 cond1   : 'F'
 cond2   : 'M'
-condz   : 'zGE_FM'
-cond11  : 'Interg_F'
-cond12  : 'NT_F'
-condz1  : 'zGE_F'
-condz2  : 'zGE_M'
-indiv   : 'FM'  
-cond_id : 'F_M'
 
-sfdr_corr : 0.0001
 
-# for LFC (Volcano)
-thr_lfchz : 1.7
-thr_lfcdz : -1.7
+
+

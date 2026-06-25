@@ -55,16 +55,18 @@ pat2 = config["pat2"]
 n = config["n"]
 cond1 = config["cond1"]
 cond2 = config["cond2"]
-condz = config["condz"]
-indiv = config["indiv"]
-cond_id = config["cond_id"]
-cond11 = config["cond11"]
-cond12 = config["cond12"]
-condz1 = config["condz1"]
-condz2 = config["condz2"]
 sfdr_corr = config["sfdr_corr"]
 thr_lfchz = config["thr_lfchz"]
 thr_lfcdz = config["thr_lfcdz"]
+
+condz   = f'zGE_{cond1}{cond2}'
+cond11  = 'Interg'
+cond12  = 'NT'
+condz1  = f'zGE_{cond1}'
+condz2  = f'zGE_{cond2}'
+indiv   = f'{cond1}{cond2}'  
+cond_id = f'{cond1}_{cond2}'
+
 
 # ============================ MODULE 1 ============================
 raw_ind = pd.read_csv(input_counts)
