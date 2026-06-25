@@ -34,7 +34,7 @@ def plot_me_med(tab_norm_T0, tab_norm_T1, output_dir):
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
     plt.tight_layout()
-    plt.savefig(os.path.join(output_dir, "normalised_counts_mean_med"), dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(output_dir, "normalised_counts_mean_med2"), dpi=300, bbox_inches="tight")
     plt.close()
 
     return me_med_T0_T1

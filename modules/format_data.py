@@ -7,8 +7,7 @@ from .find_columns_indiv import find_columns_indiv
 
 def format_data(index_scheme, indiv, norm_tab, output_dir):
     """
-    Reformats data depending on scheme (1 or 2) and computes mean/median
-    to visualize T0 vs T1 read-count changes split by sex (F/M).
+    Reformats data depending on scheme (1 or 2) and computes mean/median.
     Bars are stacked (median overlays mean).
 
     Parameters
@@ -61,7 +60,7 @@ def format_data(index_scheme, indiv, norm_tab, output_dir):
 
         # Label axes and ticks
         plt.ylabel('RPKM', fontsize=12)
-        plt.title('Mean and Median of read counts at T0/T1', fontsize=14)
+        plt.title('Mean and Median of normalised read counts', fontsize=14)
 
         xlabels = norm_tab.columns[2:]
         plt.xticks(indices, xlabels, rotation=0)
@@ -75,7 +74,7 @@ def format_data(index_scheme, indiv, norm_tab, output_dir):
         )
         plt.tight_layout()
 
-        out_path = os.path.join(output_dir, "mean_med_T0_T1.png")
+        out_path = os.path.join(output_dir, "normalised_counts_mean_med.png")
         plt.savefig(out_path, dpi=300, bbox_inches="tight")
         plt.close()
 

@@ -64,13 +64,12 @@ To run on your own data:
 | `pat1`, `pat2`   | String patterns used to filter genes              | `'chr'`, `'Non'`         |
 | `cond1`, `cond2` | Condition labels              | `'F'`, `'M'`             |
 
-### Pipeline Outputs
+### Outputs
 | File Name        | Description                                       |
 |------------------|---------------------------------------------------|
-| `gene_distribution_gRNA.png`   | Path to the counts CSV                            | 
-| `gRNA_counts_normalisation.png`   | Path to the counts CSV                            | 
-| `normalised_counts_mean_med.png`   | Path to the counts CSV                            | 
-| `mean_med_T0_T1.png`   | Path to the counts CSV                            | 
+| `gene_distribution_gRNA.png`   | Number of gRNAs attributed to each gene                      | 
+| `gRNA_counts_normalisation.png`   | Total raw (top) and normalised (bottom) read count summed over all gRNAs in each condition                            | 
+| `normalised_counts_mean_med.png`   | Mean versus median of the normalised gRNA counts for each of condition                           | 
 | `distri_separate_target_controls_{condition_name1/2}_WTval.png`   | Path to the counts CSV                            | 
 | `distri_target_controls_{condition_name1/2}_WTval.png`   | Path to the counts CSV                            | 
 | `p_distri_targ_cont_{condition_name1/2}.png`   | Path to the counts CSV                            | 
