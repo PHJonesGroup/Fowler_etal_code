@@ -99,11 +99,11 @@ def make_histo_crit_stats(
     # LFC / Z / MZ
     # replicate‑1
     plot_three_panels(bin_, perc_1, perc_z1, perc_mz1,
-                   title=f'distri LFC {cond1}', color='b', xlab='LFC', save_name=f'distri_LFC_{cond1}', output_dir=output_dir)
+                   title=f'Distribution of LFC {cond1}', color='b', xlab='LFC', save_name=f'distri_LFC_{cond1}', output_dir=output_dir)
 
     # replicate‑2
     plot_three_panels(bin_, perc_2, perc_z2, perc_mz2,
-                   title=f'distri LFC {cond2}', color='r', xlab='LFC', save_name=f'distri_LFC_{cond2}', output_dir=output_dir)
+                   title=f'Distribution of LFC {cond2}', color='r', xlab='LFC', save_name=f'distri_LFC_{cond2}', output_dir=output_dir)
 
     # ------------------------------------------------------------------
     return (
