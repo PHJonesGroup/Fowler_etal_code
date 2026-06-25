@@ -44,20 +44,15 @@ input_controls = Path(config["input_controls"])
 output_dir = Path(config["output_dir"])
 index_scheme = config["index_scheme"]
 d = config["d"]
-ssc = config["ssc"]
 alf = config["alf"]
 st = config["st"]
 en = config["en"]
 step = config["step"]
-start_end = config["start_end"]
 pat1 = config["pat1"]
 pat2 = config["pat2"]
-n = config["n"]
 cond1 = config["cond1"]
 cond2 = config["cond2"]
-sfdr_corr = config["sfdr_corr"]
 thr_lfchz = config["thr_lfchz"]
-thr_lfcdz = config["thr_lfcdz"]
 
 condz   = f'zGE_{cond1}{cond2}'
 cond11  = 'Interg'
@@ -66,6 +61,9 @@ condz1  = f'zGE_{cond1}'
 condz2  = f'zGE_{cond2}'
 indiv   = f'{cond1}{cond2}'  
 cond_id = f'{cond1}_{cond2}'
+thr_lfcdz = -thr_lfchz
+sfdr_corr = 0.0001 # constant to avoid log10(0)
+ssc     = 1 # small sample correction count
 
 
 # ============================ MODULE 1 ============================
@@ -161,7 +159,7 @@ if not dup_gRNAs.empty:
 ) = separate_target_control.separate_target_control(
     d=d, st=st, en=en, step=step,
     T_norm_indiv=T_norm_indiv, zGE=zGE,
-    pat1=pat1, pat2=pat2, n=n, output_dir=output_dir
+    pat1=pat1, pat2=pat2, output_dir=output_dir
 )
 
 # -------------------- 2.2 --------------------

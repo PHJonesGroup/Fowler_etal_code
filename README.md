@@ -73,5 +73,9 @@ To run on your own data:
 | `index_scheme`   | 2 = use both replicates; 1 = single replicate    | `2`                      |
 | `d`              | Number of gRNAs per gene                          | `4`                      |
 | `alf`            | Significance level (tail of the distribution)     | `0.06`                   |
+| `st`            | Start of x axis     | `-10`                   |
+| `end`            | End of x axis     | `10`                   |
+| `step`            | Bin sizes     | `0.05`                   |
+| `thr_lfchz`            | LFC threshold for volcano plot     | `1.7`                   |
 | `pat1`, `pat2`   | String patterns used to filter genes              | `'chr'`, `'Non'`         |
 | `cond1`, `cond2` | Condition labels (e.g. F / M)                     | `'F'`, `'M'`             |
