@@ -4,6 +4,7 @@ import os
 import matplotlib.pyplot as plt
 import yaml
 from pathlib import Path
+import argparse
 
 from modules import count_vertical_names, plot_grna_distribution
 from modules import separate_fours_threes_twos_ones_genes_gRNAs
@@ -17,8 +18,26 @@ from modules import implement_p_control_indiv_gRNA, p_control_any_implement, p_c
 from modules import computeZ, make_tables_Z_two, z_p_CTR_any
 from modules import perGene_4_hits_med_horiz, perGene_4_med_horiz, separate_fours_threes_twos_genes, volcano_gRNA_gene_hits_wt_interactive, volcano_gRNA_gene_hits_wt
 
-with open("config.yaml", "r") as f:
-    config = yaml.safe_load(f)
+def parse_args():
+    parser = argparse.ArgumentParser(description="Run the pipeline.")
+    parser.add_argument(
+        "--config",
+        default="config.yaml",
+        help="Path to the YAML config file (default: config.yaml)",
+    )
+    return parser.parse_args()
+
+def load_config(path):
+    if not os.path.exists(path):
+        sys.exit(f"Config error: file not found: {path}")
+    with open(path, "r") as f:
+        try:
+            return yaml.safe_load(f)
+        except yaml.YAMLError as e:
+            sys.exit(f"Config error: could not parse {path}\n{e}")
+
+args = parse_args()
+config = load_config(args.config)
 
 input_counts = Path(config["input_counts"])
 input_controls = Path(config["input_controls"])
@@ -26,7 +45,6 @@ output_dir = Path(config["output_dir"])
 index_scheme = config["index_scheme"]
 d = config["d"]
 ssc = config["ssc"]
-
 alf = config["alf"]
 st = config["st"]
 en = config["en"]
@@ -53,18 +71,17 @@ raw_ind = pd.read_csv(input_counts)
 si_input = raw_ind.shape
 
 T_vert = raw_ind
-gene = raw_ind.iloc[:, 1].values  # second column (gene names)
 gRNA = raw_ind.iloc[:, 0].values  # first column (gRNA names)
+gene = raw_ind.iloc[:, 1].values  # second column (gene names)
 
 # -------------------- 1.1 --------------------
 # Counts how many times each gene name/intergenic name occurs in the raw count file & gives number of gRNA per gene/ intergenic
-
 gene_names = gene
 ggenes, gg, ind_gn = count_vertical_names.count_vertical_names(gene_names)
-plot_grna_distribution.plot_grna_distribution(gg,output_dir)
+plot_grna_distribution.plot_grna_distribution(gg,d, output_dir)
 
 # -------------------- 1.2 --------------------
-# Removes three- and two-gRNA block gene
+# Removes two- and three- gRNA block gene
 d = 4 if max(gg) == 4 else max(gg)
 
 if d == 4:
@@ -93,13 +110,11 @@ raw_ind_f = pd.concat([raw_ind_4, raw_ind_1], ignore_index=True)
 si_4_1 = raw_ind_f.shape
 
 # -------------------- 1.3 --------------------
-# Normalise (FPKM) these counts as percentage within a column
-
+# Normalise (FPKM) counts as percentage within a column
 norm_dat = normalise_prop.normalise_prop(ssc, raw_ind_f, output_dir) 
 
 # -------------------- 1.4 --------------------
 # Format normalised counts, compute mean and median of normalised counts
-
 tab_norm_T0, tab_norm_T1 = norm_table_individ_WT_valid.norm_table_individ_WT_valid(norm_dat, raw_ind_f)
 me_med_T0_T1 = plot_me_med.plot_me_med(tab_norm_T0, tab_norm_T1, output_dir)
 
@@ -132,10 +147,10 @@ if not dup_gRNAs.empty:
 # -------------------- 2.1 --------------------
 # Separate and show controls, NTs, zGE, and normalised counts
 # Distribution of:
-# (1) Controls: intergenic enzyme cuttings
-# (2) NT = non-targeted
-# (3) zGE = zero GE genes
-# 4) Filtered targeted genes
+# (1) Controls: intergenic genes
+# (2) NT = non-targeted genes
+# (3) zGE = zero expressed genes
+# (4) Normalised targeted genes
 
 (
     T_target, T_target_zGE_counts, T_lfc_chr, T_lfc_nt, T_zGE,
@@ -191,9 +206,9 @@ Z_t1, Z_t2, bin, perc_t1, perc_zt1, perc_t2, perc_zt2 = computeZ.computeZ(
     st, en, step, LFC_t1, LFC_t2, me_sd12
 )
 
-plot_histograms.plot_histograms(bin, perc_t1, perc_zt1, perc_t2, perc_zt2, "Target genes", output_dir)
+plot_histograms.plot_histograms(bin, perc_t1, perc_zt1, perc_t2, perc_zt2, "Target_genes", output_dir)
 
-# make tables gRNA-based: gene4 LFC Z_zGE_LFC')
+# make tables gRNA-based
 T_t1, T_t2 = make_tables_Z_two.make_tables_Z_two(T_vert_q, Z_t1, Z_t2, cond1, cond2)
 
 # Module for Z any set: intergenic, NT, etc

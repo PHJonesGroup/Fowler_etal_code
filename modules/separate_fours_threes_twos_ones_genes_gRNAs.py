@@ -44,12 +44,10 @@ def separate_fours_threes_twos_ones_genes_gRNAs(T_vert, ggenes, gene_names, ind_
     ind1 = []
     Genes_1 = []
 
-    # Extract columns 3 to 6 (Python index 2:6) as numpy array
     wt = T_vert.iloc[:, 2:6].to_numpy()
 
-    # Note: MATLAB indexing is 1-based; Python is 0-based, adjust accordingly
     for i in range(len(gg)):
-        start_idx = ind_gn[i] - 1  # convert to zero-based index
+        start_idx = ind_gn[i] - 1
 
         if gg[i] == 4:
             k4 += 1
