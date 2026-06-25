@@ -20,7 +20,6 @@ def general_volcano(alf, sfdr_corr, thr_scoreh, thr_scored, score, fdr, cond, ge
         ax.grid(True)
         ax.set_ylabel('-Log10 FDR', fontsize=14)
         ax.set_xlabel('score', fontsize=14)
-        ax.set_xlim([-20, 10])
         ax.set_ylim([0, ma])
 
         if not T_hs.empty:

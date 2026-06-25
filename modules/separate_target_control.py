@@ -4,7 +4,7 @@ from .compute_hiss_LFC_rep12 import compute_hiss_LFC_rep12
 from .distri_target_contr_plots_all import distri_target_contr_plots_all
 import numpy as np
 
-def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, n, output_dir):
+def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, output_dir):
     """
     Parameters:
     - d: dataset or config used in zGE_target_distri
@@ -13,7 +13,6 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, n, o
     - zGE: list (table-like) of zGE genes (first column = gene names)
     - pat1: pattern for intergenic control (e.g., 'chr')
     - pat2: pattern for NT control (e.g., 'Non')
-    - n: number of characters to match pattern
 
     Returns:
     - T_target: target genes (excluding controls + zGE)
@@ -36,6 +35,8 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, n, o
     # -----------------------
     # 1. Separate intergenic (e.g., 'chr')
     pat = pat1
+    n = len(pat)
+
     (
         indiv_Chr, indiv_noChr,
         ind_out1, ind_in1, num_out_in1,
@@ -49,6 +50,7 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, n, o
     # -----------------------
     # 2. Separate NT (e.g., 'Non')
     pat = pat2
+    n = len(pat)
     (
         indiv_NT, indiv_noChr_noNT,
         ind_out2, ind_in2, num_out_in2,

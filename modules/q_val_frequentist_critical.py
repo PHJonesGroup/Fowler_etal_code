@@ -1,4 +1,3 @@
-
 import numpy as np
 
 def q_val_frequentist_critical(alf: float,

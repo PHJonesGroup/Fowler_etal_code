@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os 
+
 def plot_me_med(tab_norm_T0, tab_norm_T1, output_dir):
 
     T0 = tab_norm_T0.iloc[:, 2:4].to_numpy()
