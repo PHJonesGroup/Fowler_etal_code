@@ -52,7 +52,7 @@ def compute_p_critLFC(alf, binn, hiss_1, hiss_2, hiss_12, cond, output_dir):
     plt.xlabel('LFC')
     plt.title(f'control rep1 rep2 repBoth(:), {cond}', fontsize=14)
     plt.legend()
-    plt.savefig(os.path.join(output_dir, f"p_controls_rep1_rep2_{cond}"), dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(output_dir, f"p_controls_{cond}"), dpi=300, bbox_inches="tight")
     plt.close()
 
     return bin_pzit, crit_12_targ
