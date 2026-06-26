@@ -13,7 +13,6 @@ def make_histo_crit_stats(
     T_zGE_12: pd.DataFrame,
     cond1: str,
     cond2: str,
-    cond: str,
     output_dir
 ):
     """
@@ -26,8 +25,8 @@ def make_histo_crit_stats(
     st/en : histogram lower / upper bounds for LFC
     step  : histogram bin width
     T_zGE_12 : DataFrame with columns [gRNA, gene, lfc1, lfc2]
-    cond1, cond2, cond : strings for figure titles / legends
-
+    cond1, cond2 : str
+        Condition label for plot title.
     Returns 
     -------
     bin           : 1‑D ndarray of bin left‑edges
@@ -72,7 +71,7 @@ def make_histo_crit_stats(
     # --- 3.  Critical LFC thresholds & p‑curves ------------------------
     # ------------------------------------------------------------------
     bin_p12b, crit_1_2_12 = compute_p_critLFC(
-        alf, bin_, his_1, his_2, his_12, cond, output_dir)
+        alf, bin_, his_1, his_2, his_12, cond1, cond2, output_dir)
 
     # ------------------------------------------------------------------
     # --- 4.  Med‑MAD, Mean‑SD, Mode, Z‑scores, MZ‑scores --------------
@@ -99,11 +98,11 @@ def make_histo_crit_stats(
     # LFC / Z / MZ
     # replicate‑1
     plot_three_panels(bin_, perc_1, perc_z1, perc_mz1,
-                   title=f'Distribution of LFC {cond1}', color='b', xlab='LFC', save_name=f'distri_LFC_{cond1}', output_dir=output_dir)
+                   title=f'Distribution of zero expressed genes controls in replica: {cond1}', color='b', xlab='LFC', save_name=f'distri_zGE_{cond1}', output_dir=output_dir)
 
     # replicate‑2
     plot_three_panels(bin_, perc_2, perc_z2, perc_mz2,
-                   title=f'Distribution of LFC {cond2}', color='r', xlab='LFC', save_name=f'distri_LFC_{cond2}', output_dir=output_dir)
+                   title=f'Distribution of zero expressed genes controls in replica: {cond2}', color='r', xlab='LFC', save_name=f'distri_zGE_{cond2}', output_dir=output_dir)
 
     # ------------------------------------------------------------------
     return (

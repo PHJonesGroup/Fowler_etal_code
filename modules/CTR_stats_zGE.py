@@ -13,8 +13,6 @@ def CTR_stats_zGE(
     step: float,
     T_zGE_12: pd.DataFrame,
     his12t: np.ndarray,
-    condz1: str,
-    condz2: str,
     cond1: str,
     cond2: str,
     condz: str,
@@ -53,7 +51,7 @@ def CTR_stats_zGE(
         Z_12,
         n1_n2_n12_z,
     ) = make_histo_crit_stats(
-        alf, st, en, step, T_zGE_12, condz1, condz2, condz, output_dir
+        alf, st, en, step, T_zGE_12, cond1, cond2, output_dir
     )
 
     me_sd12   = me_sd_z12[:2, :]      # rows 0 & 1  (rep1, rep2)

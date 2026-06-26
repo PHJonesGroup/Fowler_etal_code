@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 from .q_val_frequentist_critical import q_val_frequentist_critical
 
-def compute_p_critLFC(alf, binn, hiss_1, hiss_2, hiss_12, cond, output_dir):
+def compute_p_critLFC(alf, binn, hiss_1, hiss_2, hiss_12, cond1, cond2, output_dir):
     """
     Compute p-values and critical values for LFC distributions of replicates and pooled.
 
@@ -15,7 +15,7 @@ def compute_p_critLFC(alf, binn, hiss_1, hiss_2, hiss_12, cond, output_dir):
         Bin edges or centers for LFC histogram.
     hiss_1, hiss_2, hiss_12 : array_like
         Histogram counts for replicate 1, replicate 2, and pooled data.
-    cond : str
+    cond1, cond2 : str
         Condition label for plot title.
 
     Returns
@@ -45,14 +45,14 @@ def compute_p_critLFC(alf, binn, hiss_1, hiss_2, hiss_12, cond, output_dir):
 
     # Plotting
     plt.figure(figsize=(8, 6))
-    plt.plot(binn, p1, 'b', label='rep1')
-    plt.plot(binn, p12, 'k:', label='repBoth')
-    plt.plot(binn, p2, 'r', label='rep2')
+    plt.plot(binn, p1, 'b', label={cond1})
+    plt.plot(binn, p12, 'k:', label='Both')
+    plt.plot(binn, p2, 'r', label={cond2})
     plt.grid(True)
     plt.xlabel('LFC')
-    plt.title(f'control rep1 rep2 repBoth(:), {cond}', fontsize=14)
+    plt.title(f'zGE distribution', fontsize=14)
     plt.legend()
-    plt.savefig(os.path.join(output_dir, f"p_controls_{cond}"), dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(output_dir, f"p_controls_zGE_{cond1}{cond2}"), dpi=300, bbox_inches="tight")
     plt.close()
 
     return bin_pzit, crit_12_targ

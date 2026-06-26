@@ -10,21 +10,18 @@ def plot_three_panels(bin_edges, perc_lfc, perc_z=None, perc_mz=None,
     plt.subplot(3, 1, 1)
     plt.bar(bin_edges, perc_lfc, width=np.diff(bin_edges)[0], color=color)
     plt.grid(True)
-    plt.title('distri LFC', fontsize=10)
     plt.xlabel(xlab)
 
     if perc_z is not None:
         plt.subplot(3, 1, 2)
         plt.bar(bin_edges, perc_z, width=np.diff(bin_edges)[0], color=color)
         plt.grid(True)
-        plt.title('distri Z LFC', fontsize=10)
         plt.xlabel('Z LFC')
 
     if perc_mz is not None:
         plt.subplot(3, 1, 3)
         plt.bar(bin_edges, perc_mz, width=np.diff(bin_edges)[0], color=color)
         plt.grid(True)
-        plt.title('distri MZ LFC', fontsize=10)
         plt.xlabel('MZ LFC')
 
     plt.tight_layout()

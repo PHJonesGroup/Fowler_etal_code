@@ -25,7 +25,7 @@ def format_data(index_scheme, indiv, norm_tab, output_dir):
     Returns
     -------
     T_norm_indiv : DataFrame
-        Reformatted normalization table (depends on scheme).
+        Normalisation table
     norm_dat_values : ndarray
         Raw numeric matrix from norm_tab (without gRNA/gene columns).
     me_med_nd : ndarray

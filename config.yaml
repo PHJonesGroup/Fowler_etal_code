@@ -1,8 +1,8 @@
 # -------------------- Parameters --------------------
 
-input_counts : "demo_data/T_norm_T0T1_indiv_WT_May_2.csv"
+input_counts : "demo_data/WT_valid_may2025_2.csv"
 input_controls : "demo_data/genes_zGE_official.csv"
-output_dir : "output_test"
+output_dir : "output_test2"
 index_scheme : 2  # both replicas if 2; 1 if only one replica
 d       : 4  # number of gRNAs per gene
 alf     : 0.06  # significance level of right-left tail of distribution

@@ -99,10 +99,8 @@ def separate_fours_threes_twos_ones_genes_gRNAs(T_vert, ggenes, gene_names, ind_
     min_num_gRNA = min(gg)
 
     if max_num_gRNA == min_num_gRNA:
-        #print('All genes have the same number of gRNAs')
         d = min_num_gRNA
     else:
-        #print('Variability of gRNAs per gene: make decision what to do')
         d = max_num_gRNA
 
     nums = [k4, k3, k2, k1]

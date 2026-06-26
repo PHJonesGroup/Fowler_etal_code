@@ -57,8 +57,6 @@ thr_lfchz = config["thr_lfchz"]
 condz   = f'zGE_{cond1}{cond2}'
 cond11  = 'Interg'
 cond12  = 'NT'
-condz1  = f'zGE_{cond1}'
-condz2  = f'zGE_{cond2}'
 indiv   = f'{cond1}{cond2}'  
 cond_id = f'{cond1}_{cond2}'
 thr_lfcdz = -thr_lfchz
@@ -184,8 +182,6 @@ his12t = np.column_stack([his1t, his2t])
     step,
     T_zGE,          # DataFrame with gRNA / gene / lfc1 / lfc2
     his12t,         
-    condz1,
-    condz2,
     cond1,          
     cond2,          
     condz,

@@ -30,14 +30,16 @@ def normalise_prop(ssc, raw_ind, output_dir):
 
     plt.subplot(2, 1, 1)
     plt.bar(range(len(sn1)), sn1, width=0.3)
-    plt.title('Raw WT validation all gRNAs')
+    plt.title('Raw gRNA counts')
     plt.xticks([])
-    
+    plt.ylabel("Sum of counts")
+
     plt.subplot(2, 1, 2)
     plt.bar(range(len(sn)), sn, width=0.3)
-    plt.title('Normalized WT validation all gRNAs')
+    plt.title('Normalised gRNA counts')
     plt.xticks(range(len(sn)), ['T0F', 'T1F', 'T0M', 'T1M'])
     plt.xlabel('Conditions')
+    plt.ylabel("Sum of fraction per million")
 
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, "gRNA_counts_normalisation"), dpi=300, bbox_inches="tight")
