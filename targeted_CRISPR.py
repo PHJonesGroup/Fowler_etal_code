@@ -55,8 +55,8 @@ cond2 = config["cond2"]
 thr_lfchz = config["thr_lfchz"]
 
 condz   = f'zGE_{cond1}{cond2}'
-cond11  = 'Interg'
-cond12  = 'NT'
+cond11  = 'Intergenic'
+cond12  = 'Non_Targetting'
 indiv   = f'{cond1}{cond2}'  
 cond_id = f'{cond1}_{cond2}'
 thr_lfcdz = -thr_lfchz
@@ -202,7 +202,7 @@ Z_t1, Z_t2, bin, perc_t1, perc_zt1, perc_t2, perc_zt2 = computeZ.computeZ(
     st, en, step, LFC_t1, LFC_t2, me_sd12
 )
 
-plot_histograms.plot_histograms(bin, perc_t1, perc_zt1, perc_t2, perc_zt2, "Target_genes", output_dir)
+plot_histograms.plot_histograms(bin, perc_t1, perc_zt1, perc_t2, perc_zt2, cond1, cond2, "Target_genes", output_dir)
 
 # make tables gRNA-based
 T_t1, T_t2 = make_tables_Z_two.make_tables_Z_two(T_vert_q, Z_t1, Z_t2, cond1, cond2)
@@ -214,7 +214,7 @@ T_z_q_chr1, T_z_q_chr2, binn_chr, perc_t1_chr, perc_zt1_chr, perc_t2_chr, perc_z
     st, en, step, T_any, binn, p_cont12, me_sd12, cond1, cond2
 )
 
-plot_histograms.plot_histograms(binn_chr, perc_t1_chr, perc_zt1_chr, perc_t2_chr, perc_zt2_chr, cond11, output_dir)
+plot_histograms.plot_histograms(binn_chr, perc_t1_chr, perc_zt1_chr, perc_t2_chr, perc_zt2_chr, cond1, cond2, cond11, output_dir)
 
 # NT control
 T_any = T_lfc_nt.copy()
@@ -222,7 +222,7 @@ T_z_q_nt1, T_z_q_nt2, binn_nt, perc_t1_nt, perc_zt1_nt, perc_t2_nt, perc_zt2_nt 
     st, en, step, T_any, binn, p_cont12, me_sd12, cond1, cond2
 )
 
-plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, perc_t2_nt, perc_zt2_nt, cond12, output_dir)
+plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, perc_t2_nt, perc_zt2_nt, cond1, cond2, cond12, output_dir)
 
 # -------------------- 2.5 --------------------
 # Find extreme sets (enriched/ depleted) and volcano for gRNA and gene

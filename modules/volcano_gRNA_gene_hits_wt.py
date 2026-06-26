@@ -10,13 +10,13 @@ def volcano_gRNA_gene_hits_wt(alf, sfdr_corr, thr_lfch, thr_lfcd, thr_lfchz, thr
 
     # Prepare figure with 3 subplots side by side
     fig, axs = plt.subplots(1, 3, figsize=(18, 6))
-
+    plt.suptitle(f"Replica: {cond}", fontsize=20)
     # 1. Volcano per gRNA (Z-normalized)
     LPV, indha, indda, T_ds, T_hs, T_gRNA = general_volcano(
         alf, sfdr_corr, thr_lfchz, thr_lfcdz, scoreZ, fdr, cond, genes, plot=True, ax=axs[0]
     )
     axs[0].set_xlabel('LFC standardized', fontsize=14)
-    axs[0].set_title(f'Volcano per gRNA: {cond}', fontsize=16)
+    axs[0].set_title(f'Volcano per gRNA', fontsize=16)
 
     # 2 & 3. Per gene (LFC and Z-normalized LFC)
     (
@@ -37,7 +37,7 @@ def volcano_gRNA_gene_hits_wt(alf, sfdr_corr, thr_lfch, thr_lfcd, thr_lfchz, thr
             plot=True, ax=axs[1]
         )
         axs[1].set_xlabel('LFC', fontsize=14)
-        axs[1].set_title(f'Volcano per gene LFC: {cond}', fontsize=16)
+        axs[1].set_title(f'Volcano per gene LFC', fontsize=16)
 
         # Per gene Z volcano
         general_volcano(
@@ -46,7 +46,7 @@ def volcano_gRNA_gene_hits_wt(alf, sfdr_corr, thr_lfch, thr_lfcd, thr_lfchz, thr
             plot=True, ax=axs[2]
         )
         axs[2].set_xlabel('Z-normalised LFC', fontsize=14)
-        axs[2].set_title(f'Volcano per gene Z: {cond}', fontsize=16)
+        axs[2].set_title(f'Volcano per gene Z', fontsize=16)
     else:
         # If no gene data, hide those axes
         axs[1].axis('off')
