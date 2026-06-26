@@ -8,11 +8,12 @@ def distri_target_contr_plots_all(binn, perc_z, perc_i, perc_t, perc_n, cond1, o
     """
     # Plot 1: Separate subplots
     plt.figure(figsize=(10, 8))
-    
+    plt.suptitle(f"Replica: {cond1}", fontsize=16)
+
     plt.subplot(3, 1, 1)
     plt.bar(binn, perc_z, width=np.diff(binn)[0], color='c')
     plt.grid(True)
-    plt.title(f'LFC distribution zGE, one replica: {cond1}', fontsize=14)
+    plt.title('LFC distribution zGE', fontsize=12)
     
     plt.subplot(3, 1, 2)
     plt.bar(binn, perc_i, width=np.diff(binn)[0], color='m')
@@ -38,7 +39,7 @@ def distri_target_contr_plots_all(binn, perc_z, perc_i, perc_t, perc_n, cond1, o
     plt.bar(binn, perc_n, width=np.diff(binn)[0], color='g', alpha=0.3, label='NT control')
 
     plt.grid(True)
-    plt.title(f'LFC distribution - Target Controls (one replica): {cond1}', fontsize=14)
+    plt.title(f'LFC distribution - Target Controls : {cond1}', fontsize=14)
     plt.xlabel('LFC', fontsize=12)
     plt.ylabel('Percentage (%)', fontsize=12)
     plt.legend()
