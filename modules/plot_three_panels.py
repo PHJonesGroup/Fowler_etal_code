@@ -4,7 +4,6 @@ import os
 
 def plot_three_panels(bin_edges, perc_lfc, perc_z=None, perc_mz=None,
                        title='', color='b', xlab='LFC', save_name ='', output_dir=''):
-    """Quick 3‑row barplot helper (LFC / Z / MZ)."""
     plt.figure()
     plt.suptitle(title, fontsize=14)
     plt.subplot(3, 1, 1)
