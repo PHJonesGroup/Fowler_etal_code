@@ -70,21 +70,21 @@ To run on your own data:
 | `gene_distribution_gRNA.png`   | Number of gRNAs attributed to each gene                      | 
 | `gRNA_counts_normalisation.png`   | Total raw (top) and normalised (bottom) read count summed over all gRNAs in each condition                            | 
 | `normalised_counts_mean_med.png`   | Mean versus median of the normalised gRNA counts for each of condition                           | 
-| `distri_separate_target_controls_{condition_name1/2}_WTval.png`   | Path to the counts CSV                            | 
-| `distri_target_controls_{condition_name1/2}_WTval.png`   | Path to the counts CSV                            | 
+| `distri_separate_target_controls_{condition_name1/2}.png`   | Path to the counts CSV                            | 
+| `distri_target_controls_{condition_name1/2}.png`   | Path to the counts CSV                            | 
 | `p_distri_targ_cont_{condition_name1/2}.png`   | Path to the counts CSV                            | 
-| `distri_LFC_zGE_{condition_name1/2}.png`   | Path to the counts CSV                            | 
-| `p_controls_rep1_rep2_zGE_{condition_name1+2}.png`   | Path to the counts CSV                            | 
+| `distri_zGE_{condition_name1/2}.png`   | Path to the counts CSV                            | 
+| `p_controls_zGE_{condition_name1+2}.png`   | Path to the counts CSV                            | 
 | `target_distri_LFC_Z_corr_Target_genes.png`   | Path to the counts CSV                            | 
-| `target_distri_LFC_Z_corr_Interg.png`   | Path to the counts CSV                            | 
-| `target_distri_LFC_Z_corr_NT.png`   | Path to the counts CSV                            | 
+| `target_distri_LFC_Z_corr_Intergenic.png`   | Path to the counts CSV                            | 
+| `target_distri_LFC_Z_corr_Non_Targetting.png`   | Path to the counts CSV                            | 
 | `volcano_gRNA_{condition_name1/2}.png`   | Path to the counts CSV                            | 
 | `volcano_plot_interactive_{condition_name1/2}.html`   | Path to the counts CSV                            | 
-| `T_NT_{condition_name1/2}_wt_gRNA.csv`   | Path to the counts CSV                            | 
-| `T_intergenic_{condition_name1/2}_wt_gRNA.csv `   | Path to the counts CSV                            | 
-| `T_intergenic_{condition_name1/2}_wt_gRNA.csv  `   | Path to the counts CSV                            | 
-| `T_norm_T0T1_indiv_WT.csv`   | Path to the counts CSV                            | 
-| `T_target_{condition_name}_wt_gRNA.csv`   | Path to the counts CSV                            | 
+| `T_NT_{condition_name1/2}_gRNA.csv`   | Path to the counts CSV                            | 
+| `T_intergenic_{condition_name1/2}_gRNA.csv `   | Path to the counts CSV                            | 
+| `T_intergenic_{condition_name1/2}_gRNA.csv  `   | Path to the counts CSV                            | 
+| `T_norm_T0T1_indiv.csv`   | Path to the counts CSV                            | 
+| `T_target_{condition_name1/2}_gRNA.csv`   | Path to the counts CSV                            | 
 
 
 ## Pipeline Steps

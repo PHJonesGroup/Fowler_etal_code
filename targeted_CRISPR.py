@@ -268,8 +268,8 @@ thr_lfcd = crit_LR12[1, 0]
 num_hd_LFC_Z_2 = [len(indha_2), len(indda_2), len(indhaz_2), len(inddaz_2)]
 
 # Saving results
-T_z_q_chr1.to_csv(os.path.join(output_dir, 'T_intergenic_F_wt_gRNA.csv'), index=False)
-T_z_q_chr2.to_csv(os.path.join(output_dir, 'T_intergenic_M_wt_gRNA.csv'), index=False)
-T_z_q_nt1.to_csv(os.path.join(output_dir, 'T_NT_F_wt_gRNA.csv'), index=False)
-T_z_q_nt2.to_csv(os.path.join(output_dir, 'T_NT_M_wt_gRNA.csv'), index=False)
-T_t2.to_csv(os.path.join(output_dir, 'T_target_M_wt_gRNA.csv'), index=False)
+T_z_q_chr1.to_csv(os.path.join(output_dir, 'T_intergenic_F_gRNA.csv'), index=False)
+T_z_q_chr2.to_csv(os.path.join(output_dir, 'T_intergenic_M_gRNA.csv'), index=False)
+T_z_q_nt1.to_csv(os.path.join(output_dir, 'T_NT_F_gRNA.csv'), index=False)
+T_z_q_nt2.to_csv(os.path.join(output_dir, 'T_NT_M_gRNA.csv'), index=False)
+T_t2.to_csv(os.path.join(output_dir, 'T_target_M_gRNA.csv'), index=False)
