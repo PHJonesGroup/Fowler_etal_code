@@ -82,14 +82,14 @@ def CTR_stats_zGE(
     p_targ12 = np.column_stack([p_targ1, p_targ2])
 
     # ------------------------------------------------------------------
-    # 5. Diagnostic plots
+    # 5. Plots
     # ------------------------------------------------------------------
     plt.figure()
     plt.plot(binn, p_cont1, "k--", label="control")
     plt.plot(binn, p_targ1, "k",  label="target")
-    plt.title(f"p‑control (--), p‑target (k), indiv gRNA, {cond1}")
+    plt.title(f"Probability of extreme LFC: target vs. control gRNAs ({cond1})")
     plt.xlabel("LFC bin")
-    plt.ylabel("probability to be extreme")
+    plt.ylabel("probability")
     plt.grid(True)
     plt.savefig(os.path.join(output_dir, f"p_distri_targ_cont_{cond1}"), dpi=300, bbox_inches="tight")
     plt.close()
@@ -97,9 +97,9 @@ def CTR_stats_zGE(
     plt.figure()
     plt.plot(binn, p_cont2, "k--", label="control")
     plt.plot(binn, p_targ2, "k",  label="target")
-    plt.title(f"p‑control (--), p‑target (k), indiv gRNA, {cond2}")
+    plt.title(f"Probability of extreme LFC: target vs. control gRNAs ({cond2})")
     plt.xlabel("LFC bin")
-    plt.ylabel("probability to be extreme")
+    plt.ylabel("probability")
     plt.grid(True)
     plt.savefig(os.path.join(output_dir, f"p_distri_targ_cont_{cond2}"), dpi=300, bbox_inches="tight")
     plt.close()

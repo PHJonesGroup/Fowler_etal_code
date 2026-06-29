@@ -38,8 +38,7 @@ def normalise_prop(ssc, raw_ind, output_dir):
     plt.bar(range(len(sn)), sn, width=0.3)
     plt.title('Normalised gRNA counts')
     plt.xticks(range(len(sn)), ['T0F', 'T1F', 'T0M', 'T1M'])
-    plt.xlabel('Conditions')
-    plt.ylabel("Sum of fraction per million")
+    plt.ylabel("Normalised proportion")
 
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, "gRNA_counts_normalisation"), dpi=300, bbox_inches="tight")

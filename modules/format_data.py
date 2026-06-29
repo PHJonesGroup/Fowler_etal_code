@@ -59,7 +59,7 @@ def format_data(index_scheme, indiv, norm_tab, output_dir):
                 color='tab:orange', alpha=1, label='Median')
 
         # Label axes and ticks
-        plt.ylabel('RPKM', fontsize=12)
+        plt.ylabel('CPM', fontsize=12)
         plt.title('Mean and Median of normalised read counts', fontsize=14)
 
         xlabels = norm_tab.columns[2:]

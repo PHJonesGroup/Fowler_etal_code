@@ -8,23 +8,32 @@ def distri_target_contr_plots_all(binn, perc_z, perc_i, perc_t, perc_n, cond1, o
     """
     # Plot 1: Separate subplots
     plt.figure(figsize=(10, 8))
-    plt.suptitle(f"Replica: {cond1}", fontsize=16)
+    plt.suptitle(f"Condition: {cond1}", fontsize=16)
 
-    plt.subplot(3, 1, 1)
+    plt.subplot(4, 1, 1)
     plt.bar(binn, perc_z, width=np.diff(binn)[0], color='c')
     plt.grid(True)
-    plt.title('Zero Expressed genes controls', fontsize=12)
+    plt.title('Zero Expressed Genes', fontsize=12)
+    plt.ylabel('%', fontsize=12)
     
-    plt.subplot(3, 1, 2)
+    plt.subplot(4, 1, 2)
     plt.bar(binn, perc_i, width=np.diff(binn)[0], color='m')
     plt.grid(True)
-    plt.title('Intergenic controls', fontsize=12)
+    plt.title('Intergenic Genes', fontsize=12)
+    plt.ylabel('%', fontsize=12)
     
-    plt.subplot(3, 1, 3)
+    plt.subplot(4, 1, 3)
+    plt.bar(binn, perc_n, width=np.diff(binn)[0], color='orange')
+    plt.grid(True)
+    plt.title('Non-Targetting Genes', fontsize=12)
+    plt.ylabel('%', fontsize=12)
+
+    plt.subplot(4, 1, 4)
     plt.bar(binn, perc_t, width=np.diff(binn)[0], color='k')
     plt.grid(True)
-    plt.title('Target genes', fontsize=12)
+    plt.title('Target Genes', fontsize=12)
     plt.xlabel('LFC', fontsize=12)
+    plt.ylabel('%', fontsize=12)
     
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, f"distri_separate_target_controls_{cond1}.png"), dpi=300, bbox_inches="tight")
@@ -39,7 +48,7 @@ def distri_target_contr_plots_all(binn, perc_z, perc_i, perc_t, perc_n, cond1, o
     plt.bar(binn, perc_n, width=np.diff(binn)[0], color='g', alpha=0.3, label='NT control')
 
     plt.grid(True)
-    plt.title(f'Replica : {cond1}', fontsize=14)
+    plt.title(f'Condition : {cond1}', fontsize=14)
     plt.xlabel('LFC', fontsize=12)
     plt.ylabel('%', fontsize=12)
     plt.legend()

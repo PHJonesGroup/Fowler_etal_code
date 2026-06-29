@@ -7,7 +7,7 @@ import numpy as np
 def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, output_dir):
     """
     Parameters:
-    - d: dataset or config used in zGE_target_distri
+    - d: dataset used in zGE_target_distri
     - st, en, step: for histogram binning
     - T_norm_indiv: full normalized gRNA table
     - zGE: list (table-like) of zGE genes (first column = gene names)
