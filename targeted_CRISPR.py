@@ -117,7 +117,7 @@ tab_norm_T0, tab_norm_T1 = norm_table_individ_WT_valid.norm_table_individ_WT_val
 me_med_T0_T1 = plot_me_med.plot_me_med(tab_norm_T0, tab_norm_T1, output_dir)
 
 T_norm_WT = pd.concat([tab_norm_T0, tab_norm_T1.iloc[:, 2:4]], axis=1)
-T_norm_WT.to_csv(os.path.join(output_dir, 'T_norm_T0T1_indiv_WT.csv'), index=False)
+T_norm_WT.to_csv(os.path.join(output_dir, 'normalised_counts.csv'), index=False)
 
 norm_tab = T_norm_WT.copy()
 column_labels = norm_tab.columns.tolist()
@@ -268,8 +268,9 @@ thr_lfcd = crit_LR12[1, 0]
 num_hd_LFC_Z_2 = [len(indha_2), len(indda_2), len(indhaz_2), len(inddaz_2)]
 
 # Saving results
-T_z_q_chr1.to_csv(os.path.join(output_dir, 'T_intergenic_F_gRNA.csv'), index=False)
-T_z_q_chr2.to_csv(os.path.join(output_dir, 'T_intergenic_M_gRNA.csv'), index=False)
-T_z_q_nt1.to_csv(os.path.join(output_dir, 'T_NT_F_gRNA.csv'), index=False)
-T_z_q_nt2.to_csv(os.path.join(output_dir, 'T_NT_M_gRNA.csv'), index=False)
-T_t2.to_csv(os.path.join(output_dir, 'T_target_M_gRNA.csv'), index=False)
+T_z_q_chr1.to_csv(os.path.join(output_dir, 'intergenic_F_gRNA.csv'), index=False)
+T_z_q_chr2.to_csv(os.path.join(output_dir, 'intergenic_M_gRNA.csv'), index=False)
+T_z_q_nt1.to_csv(os.path.join(output_dir, 'NT_F_gRNA.csv'), index=False)
+T_z_q_nt2.to_csv(os.path.join(output_dir, 'NT_M_gRNA.csv'), index=False)
+T_t2.to_csv(os.path.join(output_dir, 'target_M_gRNA.csv'), index=False)
+T_t1.to_csv(os.path.join(output_dir, 'target_F_gRNA.csv'), index=False)

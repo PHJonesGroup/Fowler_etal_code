@@ -67,24 +67,23 @@ To run on your own data:
 ### Outputs
 | File Name        | Description                                       |
 |------------------|---------------------------------------------------|
+| `distri_separate_target_controls_{condition_name1/2}.png`   | Individual LFC distributions of non-targetting, zero expressed, intergenic and target genes                        | 
+| `distri_target_controls_{condition_name1/2}.png`   | Overlay of LFC distributions of non-targetting, zero expressed, intergenic and target genes                            | 
+| `distri_zGE_{condition_name1/2}.png`   | Zero Gene Expression distribution of LFC, Z-corrected LFC and MZ-corrected LFC                           | 
 | `gene_distribution_gRNA.png`   | Number of gRNAs attributed to each gene                      | 
 | `gRNA_counts_normalisation.png`   | Total raw (top) and normalised (bottom) read count summed over all gRNAs in each condition                            | 
 | `normalised_counts_mean_med.png`   | Mean versus median of the normalised gRNA counts for each of condition                           | 
-| `distri_separate_target_controls_{condition_name1/2}.png`   | Path to the counts CSV                            | 
-| `distri_target_controls_{condition_name1/2}.png`   | Path to the counts CSV                            | 
-| `p_distri_targ_cont_{condition_name1/2}.png`   | Path to the counts CSV                            | 
-| `distri_zGE_{condition_name1/2}.png`   | Path to the counts CSV                            | 
-| `p_controls_zGE_{condition_name1+2}.png`   | Path to the counts CSV                            | 
-| `target_distri_LFC_Z_corr_Target_genes.png`   | Path to the counts CSV                            | 
-| `target_distri_LFC_Z_corr_Intergenic.png`   | Path to the counts CSV                            | 
-| `target_distri_LFC_Z_corr_Non_Targetting.png`   | Path to the counts CSV                            | 
-| `volcano_gRNA_{condition_name1/2}.png`   | Path to the counts CSV                            | 
-| `volcano_plot_interactive_{condition_name1/2}.html`   | Path to the counts CSV                            | 
-| `T_NT_{condition_name1/2}_gRNA.csv`   | Path to the counts CSV                            | 
-| `T_intergenic_{condition_name1/2}_gRNA.csv `   | Path to the counts CSV                            | 
-| `T_intergenic_{condition_name1/2}_gRNA.csv  `   | Path to the counts CSV                            | 
-| `T_norm_T0T1_indiv.csv`   | Path to the counts CSV                            | 
-| `T_target_{condition_name1/2}_gRNA.csv`   | Path to the counts CSV                            | 
+| `p_controls_zGE_{condition_name1+2}.png`   | P-value curve for zero expressed gRNAs                            | 
+| `p_distri_targ_cont_{condition_name1/2}.png`   | Control-calibrated p-value curves of target vs control gRNAs                           | 
+| `target_distri_LFC_Z_corr_Intergenic.png`   | LFC and Z-corrected LFC gRNA distribution for intergenic genes                           |                            | 
+| `target_distri_LFC_Z_corr_Non_Targetting.png`   | LFC and Z-corrected LFC gRNA distribution for non-targetting genes                           |                             | 
+| `target_distri_LFC_Z_corr_Target_genes.png`   | LFC and Z-corrected LFC gRNA distribution for target genes                           | 
+| `volcano_gRNA_{condition_name1/2}.png`   | Volcano plot on gRNA and gene level                            | 
+| `volcano_plot_interactive_{condition_name1/2}.html`   | Interactive volcano plot on gRNA and gene  CSV                            | 
+| `normalised_counts.csv`   | Normalised counts in csv format                            | 
+| `NT_{condition_name1/2}_gRNA.csv`   | LFC, Z-corrected LFC, q-value, condition table for non-targetting genes                            | 
+| `intergenic_{condition_name1/2}_gRNA.csv `   | LFC, Z-corrected LFC, q-value, condition table for intergenic genes                            | 
+| `target_{condition_name1/2}_gRNA.csv`   | LFC, Z-corrected LFC, q-value, condition table for target genes                            | 
 
 
 ## Pipeline Steps
