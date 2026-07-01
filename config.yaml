@@ -1,9 +1,9 @@
 # -------------------- Parameters --------------------
 
-input_counts : "demo_data/WT_valid_may2025_2.csv"
+input_counts : "demo_data/milan_raw.csv"
 input_controls : "demo_data/genes_zGE_official.csv"
-output_dir : "output_test2"
-index_scheme : 2  # both conditions if 2; 1 if only one condition
+output_dir : "output_milan"
+index_scheme : 2  # 2 if two conditions; 1 if only one condition
 d       : 4  # number of gRNAs per gene
 alf     : 0.06  # significance level of right-left tail of distribution
 st      : -10 #
@@ -12,10 +12,10 @@ step    : 0.05
 thr_lfchz : 1.7 # LCF threshold
 
 # Patterns for filtering 
-pat1    : 'chr'
-pat2    : 'Non'
-cond1   : 'F'
-cond2   : 'M'
+pat1    : 'chr' #Intergenic filtering
+pat2    : 'Non' #Non-targetting filtering
+cond1   : '5FU' #condition 1
+cond2   : 'T0' #condition 2
 
 
 
