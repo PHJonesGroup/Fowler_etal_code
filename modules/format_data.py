@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 from .find_columns_indiv import find_columns_indiv
 
-def format_data(index_scheme, indiv, norm_tab, output_dir):
+def format_data(index_scheme, indiv, norm_tab, rep, output_dir):
     """
     Reformats data depending on scheme (1 or 2) and computes mean/median.
     Bars are stacked (median overlays mean).
@@ -18,7 +18,6 @@ def format_data(index_scheme, indiv, norm_tab, output_dir):
         Individual ID (used if index_scheme == 1).
     norm_tab : DataFrame
         Normalized read-count table with columns like:
-        ['gRNA', 'gene', 'T0_F', 'T0_M', 'T1_F', 'T1_M'].
     output_dir : str
         Directory to save plots.
 

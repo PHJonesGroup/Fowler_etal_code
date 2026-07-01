@@ -5,7 +5,7 @@ import re
 
 def find_columns_indiv(norm_tab, indiv):
     """
-    Find columns containing individual identifiers like 'F' or 'M' for scheme 1.
+    Find columns containing individual identifiers like 'F' or 'M'.
     Returns column indices.
     """
     col_labels = norm_tab.columns.tolist()
