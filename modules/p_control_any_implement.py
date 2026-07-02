@@ -1,28 +1,25 @@
 import pandas as pd
 from .implement_p_control_indiv_gRNA import implement_p_control_indiv_gRNA
 
-def p_control_any_implement(T_any: pd.DataFrame, binn, p_cont12):
+def p_control_any_implement(T_any: pd.DataFrame, binn, p_cont):
     """
     Given p-values per bin, infer recalibrated Q-values for T_any based on its LFC values.
 
     Parameters:
-    - T_any: pd.DataFrame with columns ['gRNA', 'gene', 'lfc_1', 'lfc_2']
+    - T_any: pd.DataFrame with columns ['gRNA', 'gene', 'lfc']
     - binn: bin edges or categories used for calibration
-    - p_cont12: 2D array or DataFrame, calibration p-values per bin (shape Nx2)
+    - p_cont: 2D array or DataFrame, calibration p-values per bin
 
     Returns:
     - T_ij_q_verti: pd.DataFrame with columns
-      ['gRNA', 'gene', 'lfc_1', 'lfc_2', 'Q1', 'Q2']
+      ['gRNA', 'gene', 'lfc', 'Q']
     """
 
     #FDR  FRR (false rejection)-correct p-values for both tails of LFC NNT distribution
     #computed p-vals from Control distribution, frequentist
-
-    # Extract calibration p-values for each replicate
-    p_contr1 = p_cont12[:, 0]  # first column
-    p_contr2 = p_cont12[:, 1]  # second column
+    p_contr = p_cont
 
     # Call the helper function to implement p-control corrections
-    T_ij_q_verti = implement_p_control_indiv_gRNA(T_any, binn, p_contr1, p_contr2)
+    T_ij_q_verti = implement_p_control_indiv_gRNA(T_any, binn, p_contr)
     
     return T_ij_q_verti

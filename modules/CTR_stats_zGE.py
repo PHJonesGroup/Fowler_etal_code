@@ -21,7 +21,6 @@ def CTR_stats_zGE(alf, st, en, step, T_zGE, hist, cond1, cond2, condz, control, 
     p_targ    : target-gene p-curve
     T_zGE_tab : zGE table with LFC, Z, MZ
     """
-    print(T_zGE)
     # 1. Histogram & critical stats for zGE controls
     (binn, hiss_z, perc, crit_LR, bin_pz, med_mad_z, me_sd_z, mod, MZ, Z, n_z
     ) = make_histo_crit_stats(alf, st, en, step, T_zGE, cond1, cond2, control, output_dir)

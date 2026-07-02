@@ -1,37 +1,24 @@
 import matplotlib.pyplot as plt
 import os
 
-def plot_histograms(binn, perc_t1, perc_zt1, perc_t2, perc_zt2, cond1, cond2, condition_label, output_dir):
+def plot_histograms(binn, perc_t1, perc_zt1, cond1, cond2, condition_label, output_dir):
 
     plt.figure(figsize=(10, 6))
 
-    plt.subplot(2, 2, 1)
+    plt.subplot(2, 1, 1)
     plt.bar(binn, perc_t1, color='k')
     plt.grid(True)
-    plt.title(f'LFC distri {cond1}')
+    plt.title(f'LFC distri {cond1} vs {cond2}')
     plt.xlim([-16, 8])
     plt.xlabel('LFC')
 
-    plt.subplot(2, 2, 3)
+    plt.subplot(2, 1, 2)
     plt.bar(binn, perc_zt1, color='g')
     plt.grid(True)
-    plt.title(f'Z LFC distri  {cond1}')
+    plt.title(f'Z LFC distri {cond1} vs {cond2}')
     plt.xlim([-16, 8])
     plt.xlabel('LFC Z-normalised')
 
-    plt.subplot(2, 2, 2)
-    plt.bar(binn, perc_t2, color='k')
-    plt.grid(True)
-    plt.title(f'LFC distri  {cond2}')
-    plt.xlim([-16, 8])
-    plt.xlabel('LFC')
-
-    plt.subplot(2, 2, 4)
-    plt.bar(binn, perc_zt2, color='g')
-    plt.grid(True)
-    plt.title(f'Z LFC distri {cond2}')
-    plt.xlim([-16, 8])
-    plt.xlabel('LFC Z-normalised')
 
     plt.suptitle(f'gRNA distribution: {condition_label}', fontsize=14)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])

@@ -98,7 +98,6 @@ raw_ind_f = T_vert.iloc[ind_keep, :].reset_index(drop=True)
 # -------------------- 1.3 --------------------
 # Normalise (FPKM) counts as percentage within a column
 norm_dat = normalise_prop.normalise_prop(ssc, raw_ind_f, rep, output_dir) 
-print(norm_dat)
 # -------------------- 1.4 --------------------
 # Format normalised counts, compute mean and median of normalised counts
 tab_norm_T0, tab_norm_T1 = norm_table_individ_WT_valid.norm_table_individ_WT_valid(norm_dat, raw_ind_f,  cond1, cond2, rep)
@@ -142,7 +141,7 @@ dup_gRNAs = T_norm_indiv[gRNA_col][T_norm_indiv[gRNA_col].duplicated()]
     T_norm_indiv, zGE,
     pat1, pat2, cond1, cond2, output_dir
 )
-
+print(T_target)
 # -------------------- 2.2 --------------------
 # Choose zGE controls, compute Z/MZ/crit‑LR, implement q, adjust controls for Z
 if control == "Intergenic":
@@ -196,3 +195,33 @@ else:
 # -------------------- 2.3 --------------------
 # Get recalibrated p/q values for gRNAs
 T_vert_q = p_control_target_implement.p_control_target_implement(T_target, T_zGE, bin, p_cont)
+# -------------------- 2.4 --------------------
+# Compute Z LFC for two replicas rep1 rep2, for targets only
+
+LFC_t = T_vert_q.iloc[:, 2].to_numpy()
+Z_t, bin, perc_t, perc_zt,= computeZ.computeZ(
+    st, en, step, LFC_t, me_sd
+)
+plot_histograms.plot_histograms(bin, perc_t, perc_zt, cond1, cond2, "Target_genes", output_dir)
+print(T_vert_q)
+
+# make tables gRNA-based
+T_t = make_tables_Z_two.make_tables_Z_two(T_vert_q, Z_t)
+
+# Module for Z any set: intergenic, NT, etc
+if control == "zGE":
+    # Intergenic
+    T_any = T_lfc_chr.copy()
+    T_z_q_chr1, binn_chr, perc_t1_chr, perc_zt1_chr = z_p_CTR_any.z_p_CTR_any(
+        st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
+    )
+
+    plot_histograms.plot_histograms(binn_chr, perc_t1_chr, perc_zt1_chr, cond1, cond2, cond11, output_dir)
+
+# NT control
+T_any = T_lfc_nt.copy()
+T_z_q_nt1, binn_nt, perc_t1_nt, perc_zt1_nt = z_p_CTR_any.z_p_CTR_any(
+    st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
+)
+
+plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, cond1, cond2, cond12, output_dir)
