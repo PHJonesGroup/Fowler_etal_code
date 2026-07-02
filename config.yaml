@@ -1,7 +1,7 @@
 # -------------------- Parameters --------------------
 
 input_counts : "demo_data/milan_raw.csv"
-input_controls : "demo_data/genes_zGE_official.csv"
+input_controls : "demo_data/genes_zGE_official_milan.csv"
 output_dir : "output_milan"
 index_scheme : 2  # 2 if two conditions; 1 if only one condition
 d       : 6  # number of gRNAs per gene
@@ -12,6 +12,7 @@ en      : 10
 step    : 0.05
 thr_lfchz : 1.7 # LCF threshold
 keep_counts : [1, 4, 6] 
+control : "NT"
 
 # Patterns for filtering 
 pat1    : 'chr' #Intergenic filtering
