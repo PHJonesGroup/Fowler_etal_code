@@ -12,7 +12,7 @@ en      : 10
 step    : 0.05
 thr_lfchz : 1.7 # LCF threshold
 keep_counts : [1, 4, 6] 
-control : "NT"
+control : "Intergenic" # choice between Intergenic, NT or zGE
 
 # Patterns for filtering 
 pat1    : 'chr' #Intergenic filtering
