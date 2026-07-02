@@ -102,22 +102,19 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond
         else:
             LFC = np.empty(0)
 
-        T_lfc_tar = pd.DataFrame({
+        T_tar = pd.DataFrame({
             'gRNA':  gRNA.values,
             'genes': genes.values,
             'lfc':   LFC,
         })
-        print(T_lfc_tar)
-        bin, hist, perct, LFC_t, st1t, en1t = compute_hiss_LFC_rep12(T_lfc_tar, st, en, step)
+        bin, hist, perct, LFC_t, st1t, en1t = compute_hiss_LFC_rep12(T_tar, st, en, step)
         hisFMt = percFMt = None
 
     # -----------------------
     # 4. Compute distributions for chr and NT controls
-    print(T_lfc_chr)
-    print(T_lfc_nt)
+
     bin, hisi, perci, LFC_i, st1i, en1i = compute_hiss_LFC_rep12(T_lfc_chr, st, en, step)
     bin, hisn, percn, LFC_n, st1n, en1n = compute_hiss_LFC_rep12(T_lfc_nt, st, en, step)
-    print(perci)
     # -----------------------
     # 5. Plot histograms by condition
     distri_target_contr_plots_all(bin, percz, perci, perct, percn,
@@ -131,7 +128,7 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond
         T_zGE = T_zGE.sort_values(by="gene")
 
     return (
-        T_target, T_target_zGE, T_lfc_chr, T_lfc_nt, T_zGE,
+        T_tar, T_target_zGE, T_lfc_chr, T_lfc_nt, T_zGE,
         bin, hisz, percz, hisFMz, percFMz,
         hist, perct, hisFMt, percFMt, gzn
     )
