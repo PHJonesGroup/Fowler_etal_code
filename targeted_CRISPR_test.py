@@ -225,3 +225,32 @@ T_z_q_nt1, binn_nt, perc_t1_nt, perc_zt1_nt = z_p_CTR_any.z_p_CTR_any(
 )
 
 plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, cond1, cond2, cond12, output_dir)
+
+# -------------------- 2.5 --------------------
+# Find extreme sets (enriched/ depleted) and volcano for gRNA and gene
+
+thr_lfch = crit_LR[1]  
+thr_lfcd = crit_LR[0]
+
+thrLFC_d_h = [thr_lfcd, thr_lfch]
+
+
+(T_gRNA_1, T_lfc_z_q_med_1, T_lfc_z_q_me_1, T_LFC_1, T_Q_1, T_Z_1, 
+ indha_1, indda_1, indhaz_1, inddaz_1) = volcano_gRNA_gene_hits_wt.volcano_gRNA_gene_hits_wt(
+    alf, sfdr_corr, thr_lfch, thr_lfcd, thr_lfchz, thr_lfcdz, T_t, cond1, output_dir)
+
+(T_gRNA_1, T_lfc_z_q_med_1, T_lfc_z_q_me_1, T_LFC_1, T_Q_1, T_Z_1, 
+ indha_1, indda_1, indhaz_1, inddaz_1) = volcano_gRNA_gene_hits_wt_interactive.volcano_gRNA_gene_hits_wt_interactive(
+    alf, sfdr_corr, thr_lfch, thr_lfcd, thr_lfchz, thr_lfcdz, T_t, cond1, output_dir)
+
+
+num_hd_LFC_Z_1 = [len(indha_1), len(indda_1), len(indhaz_1), len(inddaz_1)]
+
+
+
+# Saving results
+if control == "zGE":
+    T_z_q_chr1.to_csv(os.path.join(output_dir, 'intergenic_gRNA.csv'), index=False)
+
+T_z_q_nt1.to_csv(os.path.join(output_dir, 'NT_gRNA.csv'), index=False)
+T_t.to_csv(os.path.join(output_dir, 'target_gRNA.csv'), index=False)
