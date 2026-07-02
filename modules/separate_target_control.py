@@ -3,8 +3,8 @@ from .zGE_target_distri import zGE_target_distri
 from .compute_hiss_LFC_rep12 import compute_hiss_LFC_rep12
 from .distri_target_contr_plots_all import distri_target_contr_plots_all
 import numpy as np
-
-def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, output_dir):
+import pandas as pd 
+def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond1, cond2, output_dir):
     """
     Parameters:
     - d: dataset used in zGE_target_distri
@@ -41,9 +41,9 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, outp
         indiv_Chr, indiv_noChr,
         ind_out1, ind_in1, num_out_in1,
         bin, hisFMi, percFMi,
-        LFC_1i, LFC_2i,
+        LFC_i,
         s_chr, st1, en1, T_lfc_chr
-    ) = filter_pattern_distri(T_norm_indiv, pat, n, st, en, step)
+    ) = filter_pattern_distri(T_norm_indiv, pat, n, st, en, step, cond1, cond2)
     
     num_chr_rest = num_out_in1
 
@@ -55,44 +55,83 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, outp
         indiv_NT, indiv_noChr_noNT,
         ind_out2, ind_in2, num_out_in2,
         bin, hisFMnt, percFMnt,
-        LFC_1nt, LFC_2nt,
+        LFC_nt,
         s_nt, st1, en1, T_lfc_nt
-    ) = filter_pattern_distri(indiv_noChr, pat, n, st, en, step)
+    ) = filter_pattern_distri(indiv_noChr, pat, n, st, en, step, cond1, cond2)
 
     num_NT_rest = num_out_in2
 
     # -----------------------
     # 3. Separate zGE and target genes
-    zGE_genes = zGE.iloc[:, 0].tolist()
-    genes_nnt = indiv_noChr_noNT.iloc[:, 1].tolist()  # gene column
+    zGE_genes = zGE.iloc[:, 0].tolist() if zGE is not None and len(zGE) > 0 else []
+    genes_nnt = indiv_noChr_noNT.iloc[:, 1].tolist()
+    has_zGE = len(zGE_genes) > 0
 
-    (
-        T_zGE, T_nzGE, bin,
-        his1z, perc1z, his2z, perc2z, hisFMz, percFMz,
-        his1t, perc1t, his2t, perc2t, hisFMt, percFMt,
-        gzn
-    ) = zGE_target_distri(d, genes_nnt, zGE_genes, indiv_noChr_noNT, st, en, step)
+    if has_zGE:
+        (
+            T_zGE, T_nzGE, bin,
+            his1z, perc1z, his2z, perc2z, hisFMz, percFMz,
+            his1t, perc1t, his2t, perc2t, hisFMt, percFMt,
+            gzn
+        ) = zGE_target_distri(d, genes_nnt, zGE_genes, indiv_noChr_noNT, st, en, step)
+
+        # collapse two-series -> single series (single averaged LFC)
+        hisz, percz = his1z, perc1z
+        hist, perct = his1t, perc1t
+        # hisFMz, percFMz, hisFMt, percFMt already defined above
+    else:
+        T_zGE = pd.DataFrame(columns=["gene"])
+        T_nzGE = indiv_noChr_noNT
+        gzn = None
+        hisz = percz = hisFMz = percFMz = None
+
+        # one averaged LFC per target gRNA
+        genes = indiv_noChr_noNT.iloc[:, 1].astype(str)
+        gRNA  = indiv_noChr_noNT.iloc[:, 0]
+
+        cond1_cols = [c for c in indiv_noChr_noNT.columns if c.startswith(f"{cond1}_")]
+        cond2_cols = [c for c in indiv_noChr_noNT.columns if c.startswith(f"{cond2}_")]
+        if not cond1_cols or not cond2_cols:
+            raise ValueError(f"Missing columns for {cond1}_ or {cond2}_")
+
+        eps = 1e-6
+        if len(indiv_noChr_noNT):
+            c1_mean = indiv_noChr_noNT[cond1_cols].astype(float).mean(axis=1)
+            c2_mean = indiv_noChr_noNT[cond2_cols].astype(float).mean(axis=1)
+            LFC = np.log2((c1_mean + eps) / (c2_mean + eps)).values
+        else:
+            LFC = np.empty(0)
+
+        T_lfc_tar = pd.DataFrame({
+            'gRNA':  gRNA.values,
+            'genes': genes.values,
+            'lfc':   LFC,
+        })
+        print(T_lfc_tar)
+        bin, hist, perct, LFC_t, st1t, en1t = compute_hiss_LFC_rep12(T_lfc_tar, st, en, step)
+        hisFMt = percFMt = None
 
     # -----------------------
     # 4. Compute distributions for chr and NT controls
-    bin, his1i,perc1i,his2i,perc2i,hisFMi,percFMi,LFC_1i,LFC_2i, st1i, en1i = compute_hiss_LFC_rep12(T_lfc_chr, st, en, step)
-    bin, his1n,perc1n,his2n,perc2n,hisFMn,percFMn,LFC_1n,LFC_2n, st1n, en1n = compute_hiss_LFC_rep12(T_lfc_nt, st, en, step)
-
+    print(T_lfc_chr)
+    print(T_lfc_nt)
+    bin, hisi, perci, LFC_i, st1i, en1i = compute_hiss_LFC_rep12(T_lfc_chr, st, en, step)
+    bin, hisn, percn, LFC_n, st1n, en1n = compute_hiss_LFC_rep12(T_lfc_nt, st, en, step)
+    print(perci)
     # -----------------------
-    # 5. Plot histograms (female and male)
-    cond1 = "F"
-    cond2 = "M"
-    distri_target_contr_plots_all(bin, perc1z, perc1i, perc1t, perc1n, cond1, output_dir)
-    distri_target_contr_plots_all(bin, perc2z, perc2i, perc2t, perc2n, cond2, output_dir)
+    # 5. Plot histograms by condition
+    distri_target_contr_plots_all(bin, percz, perci, perct, percn,
+                                  f"{cond1}_vs_{cond2}", output_dir)
 
     # -----------------------
     # 6. Final Outputs
-    T_target = T_nzGE  # targets only
-    T_target_zGE = indiv_noChr_noNT  # target + zGE
-    T_zGE = T_zGE.sort_values(by="gene")  # sort alphabetically
+    T_target = T_nzGE                 # targets only
+    T_target_zGE = indiv_noChr_noNT   # target + zGE
+    if T_zGE is not None and len(T_zGE) > 0:
+        T_zGE = T_zGE.sort_values(by="gene")
 
     return (
         T_target, T_target_zGE, T_lfc_chr, T_lfc_nt, T_zGE,
-        bin, his1z, perc1z, his2z, perc2z, hisFMz, percFMz,
-        his1t, perc1t, his2t, perc2t, hisFMt, percFMt, gzn
+        bin, hisz, percz, hisFMz, percFMz,
+        hist, perct, hisFMt, percFMt, gzn
     )
