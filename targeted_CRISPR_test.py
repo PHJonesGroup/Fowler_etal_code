@@ -95,12 +95,19 @@ groups, nums = separate_genes_by_grna_count.separate_genes_by_grna_count(T_vert,
 ind_keep = sum((groups[c]["ind"] for c in keep_counts if c in groups), [])
 raw_ind_f = T_vert.iloc[ind_keep, :].reset_index(drop=True)
 
+print("total genes:", len(gg))
+print("gene counts by #gRNA:", {c: nums[c] for c in sorted(nums)})   # how many genes at each count
+print("keep_counts:", keep_counts)
+print("kept genes:", sum(nums.get(c, 0) for c in keep_counts))
+print("kept gRNA rows:", len(ind_keep), " raw_ind_f rows:", raw_ind_f.shape[0])
+
 # -------------------- 1.3 --------------------
 # Normalise (FPKM) counts as percentage within a column
 norm_dat = normalise_prop.normalise_prop(ssc, raw_ind_f, rep, output_dir) 
 # -------------------- 1.4 --------------------
 # Format normalised counts, compute mean and median of normalised counts
 tab_norm_T0, tab_norm_T1 = norm_table_individ_WT_valid.norm_table_individ_WT_valid(norm_dat, raw_ind_f,  cond1, cond2, rep)
+
 me_med_T0_T1 = plot_me_med.plot_me_med(tab_norm_T0, tab_norm_T1, output_dir)
 
 T_norm_WT = pd.concat([tab_norm_T0, tab_norm_T1.iloc[:, 2:(2 + 2*rep)]], axis=1)
@@ -112,7 +119,6 @@ num_gRNA = d
 
 # ============================ MODULE 2 ============================
 T_norm_indiv = T_norm_WT.copy()
-
 # Load zGE dataset
 zGE = pd.read_csv(input_controls)
 zGE = zGE.drop_duplicates() 
@@ -188,22 +194,50 @@ elif control == "zGE":
         cond2,          
         condz,
         output_dir
+        )
+elif control == "Non-targetting":
+    (
+        crit_LR, 
+        me_sd, 
+        med_mad, 
+        binn, 
+        p_cont, 
+        hiss_cont, 
+        p_targ, 
+        T_zGE
+    ) = CTR_stats_zGE.CTR_stats_zGE(
+        alf,
+        st,
+        en,
+        step,
+        T_lfc_nt,          # DataFrame with gRNA / gene / lfc
+        hist,         
+        cond1,          
+        cond2,          
+        condz,
+        control,
+        output_dir
     )
 else:
     print("Invalid input for control given.")
 
 # -------------------- 2.3 --------------------
 # Get recalibrated p/q values for gRNAs
+print("T_target")
+print(T_target)
+
+print("T_zGE")
+print(T_zGE)
+print(T_zGE.shape)
+
 T_vert_q = p_control_target_implement.p_control_target_implement(T_target, T_zGE, bin, p_cont)
 # -------------------- 2.4 --------------------
-# Compute Z LFC for two replicas rep1 rep2, for targets only
-
+# Compute Z LFC for targets only
 LFC_t = T_vert_q.iloc[:, 2].to_numpy()
 Z_t, bin, perc_t, perc_zt,= computeZ.computeZ(
     st, en, step, LFC_t, me_sd
 )
 plot_histograms.plot_histograms(bin, perc_t, perc_zt, cond1, cond2, "Target_genes", output_dir)
-print(T_vert_q)
 
 # make tables gRNA-based
 T_t = make_tables_Z_two.make_tables_Z_two(T_vert_q, Z_t)
@@ -217,14 +251,26 @@ if control == "zGE":
     )
 
     plot_histograms.plot_histograms(binn_chr, perc_t1_chr, perc_zt1_chr, cond1, cond2, cond11, output_dir)
+    # NT control
+    T_any = T_lfc_nt.copy()
+    T_z_q_nt1, binn_nt, perc_t1_nt, perc_zt1_nt = z_p_CTR_any.z_p_CTR_any(
+        st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
+    )
 
-# NT control
-T_any = T_lfc_nt.copy()
-T_z_q_nt1, binn_nt, perc_t1_nt, perc_zt1_nt = z_p_CTR_any.z_p_CTR_any(
-    st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
-)
-
-plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, cond1, cond2, cond12, output_dir)
+    plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, cond1, cond2, cond12, output_dir)
+elif control == "Non-targetting":
+    # Intergenic
+    T_any = T_lfc_chr.copy()
+    T_z_q_chr1, binn_chr, perc_t1_chr, perc_zt1_chr = z_p_CTR_any.z_p_CTR_any(
+        st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
+    )
+elif control == "Intergenic":
+    # NT control
+    T_any = T_lfc_nt.copy()
+    T_z_q_nt1, binn_nt, perc_t1_nt, perc_zt1_nt = z_p_CTR_any.z_p_CTR_any(
+        st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
+    )
+    plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, cond1, cond2, cond12, output_dir)
 
 # -------------------- 2.5 --------------------
 # Find extreme sets (enriched/ depleted) and volcano for gRNA and gene
@@ -251,6 +297,9 @@ num_hd_LFC_Z_1 = [len(indha_1), len(indda_1), len(indhaz_1), len(inddaz_1)]
 # Saving results
 if control == "zGE":
     T_z_q_chr1.to_csv(os.path.join(output_dir, 'intergenic_gRNA.csv'), index=False)
-
-T_z_q_nt1.to_csv(os.path.join(output_dir, 'NT_gRNA.csv'), index=False)
+    T_z_q_nt1.to_csv(os.path.join(output_dir, 'NT_gRNA.csv'), index=False)
+elif control == "Non-targetting":
+    T_z_q_chr1.to_csv(os.path.join(output_dir, 'intergenic_gRNA.csv'), index=False)
+elif control == "Intergenic":
+    T_z_q_nt1.to_csv(os.path.join(output_dir, 'NT_gRNA.csv'), index=False)
 T_t.to_csv(os.path.join(output_dir, 'target_gRNA.csv'), index=False)
