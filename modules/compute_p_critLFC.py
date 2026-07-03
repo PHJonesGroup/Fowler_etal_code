@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 from .q_val_frequentist_critical import q_val_frequentist_critical
 
-def compute_p_critLFC(alf, binn, hiss, cond1, cond2, output_dir):
+def compute_p_critLFC(alf, binn, hiss, cond1, cond2, control, output_dir):
     """
     Compute the p-curve and critical LFC values for a single LFC distribution
     (contrast cond1 vs cond2).
@@ -33,7 +33,7 @@ def compute_p_critLFC(alf, binn, hiss, cond1, cond2, output_dir):
     plt.ylabel('Probability')
     plt.title('Zero Gene Expression gRNAs', fontsize=14)
     plt.legend()
-    plt.savefig(os.path.join(output_dir, f"p_controls_zGE_{cond1}_vs_{cond2}.png"),
+    plt.savefig(os.path.join(output_dir, f"p_controls_{control}_{cond1}_vs_{cond2}.png"),
                 dpi=300, bbox_inches="tight")
     plt.close()
 

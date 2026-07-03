@@ -1,20 +1,35 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 import os
+
+def _as_pooled_1d(perc):
+    """Accept a 1-D perc as-is; if a 2-D (bins x reps) array arrives, average across reps."""
+    if perc is None:
+        return None
+    perc = np.asarray(perc, dtype=float)
+    if perc.ndim == 2:
+        perc = np.nanmean(perc, axis=1)   # fallback only; true pooling should happen upstream
+    return perc
 
 def distri_target_contr_plots_all(binn, perc_z, perc_i, perc_t, perc_n, cond1, output_dir):
     """
-    Plot LFC distribution for zGE, intergenic, target, and NT control.
-    Any category whose array is None is skipped (e.g. zGE when absent).
+    Plot pooled LFC distributions (all reps combined) for zGE, intergenic,
+    NT control, and target. Any category whose array is None is skipped.
+    Each perc_* should be a 1-D pooled distribution (all reps' LFCs combined).
     """
+    perc_z = _as_pooled_1d(perc_z)
+    perc_i = _as_pooled_1d(perc_i)
+    perc_t = _as_pooled_1d(perc_t)
+    perc_n = _as_pooled_1d(perc_n)
+
     width = np.diff(binn)[0]
 
-    # ---- Figure 1: separate panels (only those with data) ----
+    # ---- Figure 1: separate panels ----
     panels = [
-        (perc_z, 'Zero Expressed Genes',   'c'),
-        (perc_i, 'Intergenic Genes',       'm'),
-        (perc_n, 'Non-Targetting Genes',   'orange'),
-        (perc_t, 'Target Genes',           'k'),
+        (perc_z, 'Zero Expressed Genes', 'c'),
+        (perc_i, 'Intergenic Genes',     'm'),
+        (perc_n, 'Non-Targetting Genes', 'orange'),
+        (perc_t, 'Target Genes',         'k'),
     ]
     panels = [p for p in panels if p[0] is not None]
 
@@ -26,17 +41,17 @@ def distri_target_contr_plots_all(binn, perc_z, perc_i, perc_t, perc_n, cond1, o
         plt.grid(True)
         plt.title(title, fontsize=12)
         plt.ylabel('%', fontsize=12)
-        if k == len(panels):                 # xlabel only on bottom panel
+        if k == len(panels):
             plt.xlabel('LFC', fontsize=12)
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, f"distri_separate_target_controls_{cond1}.png"),
                 dpi=300, bbox_inches="tight")
     plt.close()
 
-    # ---- Figure 2: overlaid (only categories with data) ----
+    # ---- Figure 2: overlaid ----
     plt.figure(figsize=(10, 5))
     if perc_z is not None:
-        plt.bar(binn, perc_z, width=width, color='c',      label='zGE')
+        plt.bar(binn, perc_z, width=width, color='c',            label='zGE')
     if perc_i is not None:
         plt.bar(binn, perc_i, width=width, color='m', alpha=0.7, label='intergenic')
     if perc_t is not None:
@@ -52,5 +67,4 @@ def distri_target_contr_plots_all(binn, perc_z, perc_i, perc_t, perc_n, cond1, o
     plt.savefig(os.path.join(output_dir, f"distri_target_controls_{cond1}.png"),
                 dpi=300, bbox_inches="tight")
     plt.close()
-
     return 1

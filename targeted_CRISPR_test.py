@@ -56,6 +56,7 @@ pat1 = config["pat1"]
 pat2 = config["pat2"]
 cond1 = config["cond1"]
 cond2 = config["cond2"]
+rep_pairs = config["rep_pairs"]
 thr_lfchz = config["thr_lfchz"]
 
 condz   = f'zGE_{cond1}{cond2}'
@@ -145,9 +146,11 @@ dup_gRNAs = T_norm_indiv[gRNA_col][T_norm_indiv[gRNA_col].duplicated()]
 ) = separate_target_control.separate_target_control(
     d, st, en, step,
     T_norm_indiv, zGE,
-    pat1, pat2, cond1, cond2, output_dir
+    pat1, pat2, cond1, cond2, rep_pairs, output_dir
 )
 print(T_target)
+print(T_lfc_chr)
+
 # -------------------- 2.2 --------------------
 # Choose zGE controls, compute Z/MZ/crit‑LR, implement q, adjust controls for Z
 if control == "Intergenic":
@@ -223,83 +226,7 @@ else:
 
 # -------------------- 2.3 --------------------
 # Get recalibrated p/q values for gRNAs
-print("T_target")
-print(T_target)
-
-print("T_zGE")
-print(T_zGE)
-print(T_zGE.shape)
+print("T_target cols:", T_target.columns.tolist())
+print("T_zGE cols:", T_zGE.columns.tolist())
 
 T_vert_q = p_control_target_implement.p_control_target_implement(T_target, T_zGE, bin, p_cont)
-# -------------------- 2.4 --------------------
-# Compute Z LFC for targets only
-LFC_t = T_vert_q.iloc[:, 2].to_numpy()
-Z_t, bin, perc_t, perc_zt,= computeZ.computeZ(
-    st, en, step, LFC_t, me_sd
-)
-plot_histograms.plot_histograms(bin, perc_t, perc_zt, cond1, cond2, "Target_genes", output_dir)
-
-# make tables gRNA-based
-T_t = make_tables_Z_two.make_tables_Z_two(T_vert_q, Z_t)
-
-# Module for Z any set: intergenic, NT, etc
-if control == "zGE":
-    # Intergenic
-    T_any = T_lfc_chr.copy()
-    T_z_q_chr1, binn_chr, perc_t1_chr, perc_zt1_chr = z_p_CTR_any.z_p_CTR_any(
-        st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
-    )
-
-    plot_histograms.plot_histograms(binn_chr, perc_t1_chr, perc_zt1_chr, cond1, cond2, cond11, output_dir)
-    # NT control
-    T_any = T_lfc_nt.copy()
-    T_z_q_nt1, binn_nt, perc_t1_nt, perc_zt1_nt = z_p_CTR_any.z_p_CTR_any(
-        st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
-    )
-
-    plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, cond1, cond2, cond12, output_dir)
-elif control == "Non-targetting":
-    # Intergenic
-    T_any = T_lfc_chr.copy()
-    T_z_q_chr1, binn_chr, perc_t1_chr, perc_zt1_chr = z_p_CTR_any.z_p_CTR_any(
-        st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
-    )
-elif control == "Intergenic":
-    # NT control
-    T_any = T_lfc_nt.copy()
-    T_z_q_nt1, binn_nt, perc_t1_nt, perc_zt1_nt = z_p_CTR_any.z_p_CTR_any(
-        st, en, step, T_any, binn, p_cont, me_sd, cond1, cond2
-    )
-    plot_histograms.plot_histograms(binn_nt, perc_t1_nt, perc_zt1_nt, cond1, cond2, cond12, output_dir)
-
-# -------------------- 2.5 --------------------
-# Find extreme sets (enriched/ depleted) and volcano for gRNA and gene
-
-thr_lfch = crit_LR[1]  
-thr_lfcd = crit_LR[0]
-
-thrLFC_d_h = [thr_lfcd, thr_lfch]
-
-
-(T_gRNA_1, T_lfc_z_q_med_1, T_lfc_z_q_me_1, T_LFC_1, T_Q_1, T_Z_1, 
- indha_1, indda_1, indhaz_1, inddaz_1) = volcano_gRNA_gene_hits_wt.volcano_gRNA_gene_hits_wt(
-    alf, sfdr_corr, thr_lfch, thr_lfcd, thr_lfchz, thr_lfcdz, T_t, cond1, output_dir)
-
-(T_gRNA_1, T_lfc_z_q_med_1, T_lfc_z_q_me_1, T_LFC_1, T_Q_1, T_Z_1, 
- indha_1, indda_1, indhaz_1, inddaz_1) = volcano_gRNA_gene_hits_wt_interactive.volcano_gRNA_gene_hits_wt_interactive(
-    alf, sfdr_corr, thr_lfch, thr_lfcd, thr_lfchz, thr_lfcdz, T_t, cond1, output_dir)
-
-
-num_hd_LFC_Z_1 = [len(indha_1), len(indda_1), len(indhaz_1), len(inddaz_1)]
-
-
-
-# Saving results
-if control == "zGE":
-    T_z_q_chr1.to_csv(os.path.join(output_dir, 'intergenic_gRNA.csv'), index=False)
-    T_z_q_nt1.to_csv(os.path.join(output_dir, 'NT_gRNA.csv'), index=False)
-elif control == "Non-targetting":
-    T_z_q_chr1.to_csv(os.path.join(output_dir, 'intergenic_gRNA.csv'), index=False)
-elif control == "Intergenic":
-    T_z_q_nt1.to_csv(os.path.join(output_dir, 'NT_gRNA.csv'), index=False)
-T_t.to_csv(os.path.join(output_dir, 'target_gRNA.csv'), index=False)

@@ -36,6 +36,9 @@ def CTR_stats_zGE(alf, st, en, step, T_zGE, hist, cond1, cond2, condz, control, 
     hiss_cont = hiss_z
 
     # 4. Target-gene p-curve
+    hist = np.asarray(hist)
+    if hist.ndim == 2:
+        hist = hist.sum(axis=1)     # pooled counts across the 4 reps -> 1-D, length 400
     p_targ, cL, cR, bin_pi, med_LFCp, his4p = q_val_frequentist_critical(alf, binn, hist)
 
     # 5. Plot: target vs. control p-curves

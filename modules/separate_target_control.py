@@ -4,7 +4,7 @@ from .compute_hiss_LFC_rep12 import compute_hiss_LFC_rep12
 from .distri_target_contr_plots_all import distri_target_contr_plots_all
 import numpy as np
 import pandas as pd 
-def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond1, cond2, output_dir):
+def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond1, cond2, rep_pairs, output_dir):
     """
     Parameters:
     - d: dataset used in zGE_target_distri
@@ -43,7 +43,7 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond
         bin, hisFMi, percFMi,
         LFC_i,
         s_chr, st1, en1, T_lfc_chr
-    ) = filter_pattern_distri(T_norm_indiv, pat, n, st, en, step, cond1, cond2)
+    ) = filter_pattern_distri(T_norm_indiv, pat, n, st, en, step, cond1, cond2, rep_pairs)
     
     num_chr_rest = num_out_in1
 
@@ -57,7 +57,7 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond
         bin, hisFMnt, percFMnt,
         LFC_nt,
         s_nt, st1, en1, T_lfc_nt
-    ) = filter_pattern_distri(indiv_noChr, pat, n, st, en, step, cond1, cond2)
+    ) = filter_pattern_distri(indiv_noChr, pat, n, st, en, step, cond1, cond2, rep_pairs)
 
     num_NT_rest = num_out_in2
 
@@ -80,41 +80,34 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond
         hist, perct = his1t, perc1t
         # hisFMz, percFMz, hisFMt, percFMt already defined above
     else:
-        T_zGE = pd.DataFrame(columns=["gene"])
+        T_zGE = pd.DataFrame(columns=["gRNA", "gene", "lfc"])
         T_nzGE = indiv_noChr_noNT
         gzn = None
         hisz = percz = hisFMz = percFMz = None
 
-        # one averaged LFC per target gRNA
         genes = indiv_noChr_noNT.iloc[:, 1].astype(str)
         gRNA  = indiv_noChr_noNT.iloc[:, 0]
 
-        cond1_cols = [c for c in indiv_noChr_noNT.columns if c.startswith(f"{cond1}_")]
-        cond2_cols = [c for c in indiv_noChr_noNT.columns if c.startswith(f"{cond2}_")]
-        if not cond1_cols or not cond2_cols:
-            raise ValueError(f"Missing columns for {cond1}_ or {cond2}_")
-
         eps = 1e-6
-        if len(indiv_noChr_noNT):
-            c1_mean = indiv_noChr_noNT[cond1_cols].astype(float).mean(axis=1)
-            c2_mean = indiv_noChr_noNT[cond2_cols].astype(float).mean(axis=1)
-            LFC = np.log2((c1_mean + eps) / (c2_mean + eps)).values
-        else:
-            LFC = np.empty(0)
-
-        T_tar = pd.DataFrame({
-            'gRNA':  gRNA.values,
-            'genes': genes.values,
-            'lfc':   LFC,
-        })
-        bin, hist, perct, LFC_t, st1t, en1t = compute_hiss_LFC_rep12(T_tar, st, en, step)
+        # pair cond1_<rep> with cond2_<rep> by shared replicate id
+        T_tar = pd.DataFrame({'gRNA': gRNA.values, 'gene': genes.values})
+        for r in rep_pairs:                       # e.g. ['60159','60160','60161','60162']
+            c1 = f"{cond1}_{r}"
+            c2 = f"{cond2}_{r}"
+            if c1 not in indiv_noChr_noNT.columns or c2 not in indiv_noChr_noNT.columns:
+                raise ValueError(f"Missing {c1} or {c2}")
+            T_tar[f"lfc_{r}"] = np.log2(
+                (indiv_noChr_noNT[c1].astype(float) + eps) /
+                (indiv_noChr_noNT[c2].astype(float) + eps)
+            ).values
+        bin, hist, perct, LFC_t, lfc_cols_t, st1t, en1t = compute_hiss_LFC_rep12(T_tar, st, en, step)
         hisFMt = percFMt = None
 
     # -----------------------
     # 4. Compute distributions for chr and NT controls
 
-    bin, hisi, perci, LFC_i, st1i, en1i = compute_hiss_LFC_rep12(T_lfc_chr, st, en, step)
-    bin, hisn, percn, LFC_n, st1n, en1n = compute_hiss_LFC_rep12(T_lfc_nt, st, en, step)
+    bin, hisi, perci, LFC_i, lfc_cols_i, st1i, en1i = compute_hiss_LFC_rep12(T_lfc_chr, st, en, step)
+    bin, hisn, percn, LFC_n, lfc_cols_n, st1n, en1n = compute_hiss_LFC_rep12(T_lfc_nt, st, en, step)
     # -----------------------
     # 5. Plot histograms by condition
     distri_target_contr_plots_all(bin, percz, perci, perct, percn,

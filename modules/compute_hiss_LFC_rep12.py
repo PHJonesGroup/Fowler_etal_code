@@ -2,58 +2,51 @@ import numpy as np
 import pandas as pd
 from .make_histo_LFC import make_histo_LFC
 
-def compute_hiss_LFC_rep12(chr_lfc_12, st, en, step):
+import numpy as np
+import pandas as pd
+from .make_histo_LFC import make_histo_LFC
+
+def compute_hiss_LFC_rep12(chr_lfc, st, en, step):
     """
-    Compute histograms (distributions) for individual gRNAs, for both replicates and the average.
-    
+    Compute histograms for individual gRNAs across one or more LFC columns.
+
     Parameters:
-        chr_lfc_12 (pd.DataFrame): DataFrame with columns:
-            - gRNA_chr (str)
-            - genes_chr (str)
-            - lfc1 (float): replicate 1
-            - lfc2 (float): replicate 2
-        st (float): start of histogram range
-        en (float): end of histogram range
-        step (float): bin width
+        chr_lfc (pd.DataFrame): [gRNA, gene, lfc_<r1>, lfc_<r2>, ...]
+                                (any number of LFC columns from col index 2 on)
+        st, en, step: histogram range and bin width
 
     Returns:
-        binn: histogram bin edges
-        hiss1: histogram counts for replicate 1
-        perc1: histogram percentages for replicate 1
-        hiss2: histogram counts for replicate 2
-        perc2: histogram percentages for replicate 2
-        hissFM: histogram counts for average
-        percFM: histogram percentages for average
-        LFC_1: replicate 1 LFCs (numpy array)
-        LFC_2: replicate 2 LFCs (numpy array)
-        st1: min(LFCs) - 1
-        en1: max(LFCs) + 1
+        binn : bin edges (shared across all columns)
+        hiss : (#bins, n_lfc) counts, one column per LFC column
+        perc : (#bins, n_lfc) percentages, one column per LFC column
+        LFC  : (#rows, n_lfc) the LFC values
+        labels : list of the LFC column names
+        st1, en1 : data-driven bounds across all LFC columns
     """
-    
-    # Extract values
-    LFC = chr_lfc_12.iloc[:, 2].astype(float).values
-    # LFC_2 = chr_lfc_12.iloc[:, 3].astype(float).values
+    # all LFC columns (everything after gRNA, gene)
+    lfc_cols = list(chr_lfc.columns[2:])
+    if not lfc_cols:
+        raise ValueError("No LFC columns found (expected columns after gRNA, gene)")
 
-    # Compute new bounds
-    # st1 = min(LFC_1.min(), LFC_2.min()) - 1
-    # en1 = max(LFC_1.max(), LFC_2.max()) + 1
+    LFC = chr_lfc[lfc_cols].astype(float).values      # (rows, n_lfc)
 
-    # Compute average LFC (mean of both replicates)
-    # meLFC = np.mean(np.vstack((LFC_1, LFC_2)), axis=0)
-
-    # # Histograms
-    # binn, hissFM, percFM = make_histo_LFC(step, meLFC, st, en)
-    # _, hiss1, perc1 = make_histo_LFC(step, LFC_1, st, en)
-    # _, hiss2, perc2 = make_histo_LFC(step, LFC_2, st, en)
-
-    # return binn, hiss1, perc1, hiss2, perc2, hissFM, percFM, LFC_1, LFC_2, st1, en1
-
-    if LFC.size:
-        st1 = LFC.min() - 1
-        en1 = LFC.max() + 1
+    # data-driven bounds across all columns (finite values only)
+    finite = LFC[np.isfinite(LFC)]
+    if finite.size:
+        st1, en1 = finite.min() - 1, finite.max() + 1
     else:
         st1, en1 = st, en
 
-    binn, hiss, perc = make_histo_LFC(step, LFC, st, en)
+    # histogram each LFC column on the same fixed bins
+    hiss_list, perc_list = [], []
+    binn = None
+    for k in range(LFC.shape[1]):
+        b, hiss_k, perc_k = make_histo_LFC(step, LFC[:, k], st, en)
+        binn = b
+        hiss_list.append(hiss_k)
+        perc_list.append(perc_k)
 
-    return binn, hiss, perc, LFC, st1, en1
+    hiss = np.column_stack(hiss_list)
+    perc = np.column_stack(perc_list)
+
+    return binn, hiss, perc, LFC, lfc_cols, st1, en1
