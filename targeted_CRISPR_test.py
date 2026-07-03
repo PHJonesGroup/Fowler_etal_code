@@ -230,3 +230,23 @@ print("T_target cols:", T_target.columns.tolist())
 print("T_zGE cols:", T_zGE.columns.tolist())
 
 T_vert_q = p_control_target_implement.p_control_target_implement(T_target, T_zGE, bin, p_cont)
+
+
+# -------------------- 2.3 --------------------
+# Get recalibrated p/q values for gRNAs
+print("T_target")
+print(T_target)
+
+print("T_zGE")
+print(T_zGE)
+print(T_zGE.shape)
+
+T_vert_q = p_control_target_implement.p_control_target_implement(T_target, T_zGE, bin, p_cont)
+# -------------------- 2.4 --------------------
+# Compute Z LFC for targets only
+lfc_cols = [c for c in T_vert_q.columns if c.startswith('lfc')]
+LFC_t = T_vert_q[lfc_cols].to_numpy(dtype=float)     # (n_gRNA x 4)
+Z_t, bin, perc_t, perc_zt = computeZ.computeZ(st, en, step, LFC_t, me_sd)
+T_t = make_tables_Z_two.make_tables_Z_two(T_vert_q, Z_t)
+
+T_t.to_csv(os.path.join(output_dir, 'target_gRNA.csv'), index=False)

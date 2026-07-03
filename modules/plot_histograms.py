@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import os
 
-def plot_histograms(binn, perc_t1, perc_zt1, cond1, cond2, condition_label, output_dir):
+def plot_histograms(binn, perc_t1, perc_zt1, cond1, cond2, condition_label, st, en, output_dir):
 
     plt.figure(figsize=(10, 6))
 
@@ -9,14 +9,14 @@ def plot_histograms(binn, perc_t1, perc_zt1, cond1, cond2, condition_label, outp
     plt.bar(binn, perc_t1, color='k')
     plt.grid(True)
     plt.title(f'LFC distri {cond1} vs {cond2}')
-    plt.xlim([-16, 8])
+    plt.xlim([st, en])
     plt.xlabel('LFC')
 
     plt.subplot(2, 1, 2)
     plt.bar(binn, perc_zt1, color='g')
     plt.grid(True)
     plt.title(f'Z LFC distri {cond1} vs {cond2}')
-    plt.xlim([-16, 8])
+    plt.xlim([st, en])
     plt.xlabel('LFC Z-normalised')
 
 
