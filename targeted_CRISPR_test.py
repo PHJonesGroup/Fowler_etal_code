@@ -41,7 +41,7 @@ args = parse_args()
 config = load_config(args.config)
 
 input_counts = Path(config["input_counts"])
-input_controls = Path(config["input_controls"])
+input_controls = config.get("input_controls")
 output_dir = Path(config["output_dir"])
 index_scheme = config["index_scheme"]
 d = config["d"]
@@ -96,12 +96,6 @@ groups, nums = separate_genes_by_grna_count.separate_genes_by_grna_count(T_vert,
 ind_keep = sum((groups[c]["ind"] for c in keep_counts if c in groups), [])
 raw_ind_f = T_vert.iloc[ind_keep, :].reset_index(drop=True)
 
-print("total genes:", len(gg))
-print("gene counts by #gRNA:", {c: nums[c] for c in sorted(nums)})   # how many genes at each count
-print("keep_counts:", keep_counts)
-print("kept genes:", sum(nums.get(c, 0) for c in keep_counts))
-print("kept gRNA rows:", len(ind_keep), " raw_ind_f rows:", raw_ind_f.shape[0])
-
 # -------------------- 1.3 --------------------
 # Normalise (FPKM) counts as percentage within a column
 norm_dat = normalise_prop.normalise_prop(ssc, raw_ind_f, rep, output_dir) 
@@ -120,9 +114,16 @@ num_gRNA = d
 
 # ============================ MODULE 2 ============================
 T_norm_indiv = T_norm_WT.copy()
+
 # Load zGE dataset
-zGE = pd.read_csv(input_controls)
-zGE = zGE.drop_duplicates() 
+if input_controls in (None, "", "null"):
+    # no controls provided -> empty zGE
+    zGE = pd.DataFrame(columns=["gene"])
+else:
+    input_controls = Path(input_controls)
+    if not input_controls.exists():
+        raise FileNotFoundError(f"input_controls file not found: {input_controls}")
+    zGE = pd.read_csv(input_controls).drop_duplicates()
 
 # Check full duplicate rows
 dup_rows = T_norm_indiv[T_norm_indiv.duplicated()]
@@ -148,8 +149,6 @@ dup_gRNAs = T_norm_indiv[gRNA_col][T_norm_indiv[gRNA_col].duplicated()]
     T_norm_indiv, zGE,
     pat1, pat2, cond1, cond2, rep_pairs, output_dir
 )
-print(T_target)
-print(T_lfc_chr)
 
 # -------------------- 2.2 --------------------
 # Choose zGE controls, compute Z/MZ/crit‑LR, implement q, adjust controls for Z
@@ -226,20 +225,10 @@ else:
 
 # -------------------- 2.3 --------------------
 # Get recalibrated p/q values for gRNAs
-print("T_target cols:", T_target.columns.tolist())
-print("T_zGE cols:", T_zGE.columns.tolist())
-
 T_vert_q = p_control_target_implement.p_control_target_implement(T_target, T_zGE, bin, p_cont)
-
 
 # -------------------- 2.3 --------------------
 # Get recalibrated p/q values for gRNAs
-print("T_target")
-print(T_target)
-
-print("T_zGE")
-print(T_zGE)
-print(T_zGE.shape)
 
 T_vert_q = p_control_target_implement.p_control_target_implement(T_target, T_zGE, bin, p_cont)
 # -------------------- 2.4 --------------------
