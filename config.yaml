@@ -4,9 +4,9 @@ input_counts : "demo_data/test_data.csv"
 input_controls : "demo_data/zGE_gene_list.csv" #optional
 output_dir : "test_ouput/"
 index_scheme : 2  # 2 if two conditions; 1 if only one condition
+rep     : 4 # number of replicates per condition
 keep_counts : [1, 4, 10] #number of gRNAs expected per genes
 control : "Intergenic" # choice between Intergenic, Non-targetting or zGE
-rep     : 4 # number of replicates per condition
 alf     : 0.06  # significance level of right-left tail of distribution
 
 # Patterns for filtering 

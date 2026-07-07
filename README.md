@@ -23,13 +23,13 @@ No non-standard hardware required.
 Clone the repository:
 ```
 git clone https://github.com/PHJonesGroup/Fowler_etal_code.git
-cd Fowler_et_al/
+cd Fowler_etal_code/
 ```
 
 Create and activate a virtual environment:
 ```
-python -m venv venv
-source venv/bin/activate
+python -m venv myenv
+source myenv/bin/activate
 ```
 
 Install dependencies:
@@ -51,17 +51,19 @@ To run on your own data:
 | Parameter        | Description                                       | Example                  |
 |------------------|---------------------------------------------------|--------------------------|
 | `input_counts`   | Path to the counts CSV                            | `demo_data/WT_....csv`   |
-| `input_controls` | Path to the control genes CSV                     | `demo_data/genes_....csv`|
+| `input_controls` | Path to the control genes CSV (optional)                  | `demo_data/genes_....csv`|
 | `output_dir`     | Directory where results are written              | `output`                 |
 | `index_scheme`   | 2 = use both replicates; 1 = single replicate    | `2`                      |
-| `d`              | Number of gRNAs per gene                          | `4`                      |
+| `rep`   | Number of replicates per condition    | `4`                      |
+| `keep_counts`   | Number of gRNAs expected per genes    | `[1, 4, 10]`                      |
+| `control`   |  Baseline against which targeted genes distribution is compared against. Choose between Intergenic, Non-targetting or zGE   | `Non-targetting`                      |
 | `alf`            | Significance level (tail of the distribution)     | `0.06`                   |
+| `pat1`, `pat2`   | String patterns used to filter genes              | `'chr'`, `'Non'`         |
+| `cond1`, `cond2` | Condition labels              | `'T1'`, `'T0'`             |
 | `st`            | Start of x axis     | `-10`                   |
 | `end`            | End of x axis     | `10`                   |
 | `step`            | Bin sizes     | `0.05`                   |
-| `thr_lfchz`            | LFC threshold for volcano plot     | `1.7`                   |
-| `pat1`, `pat2`   | String patterns used to filter genes              | `'chr'`, `'Non'`         |
-| `cond1`, `cond2` | Condition labels              | `'F'`, `'M'`             |
+| `thr_lfchz`            | LFC threshold for volcano plot     | `1.7`     |
 
 ### Outputs
 | File Name        | Description                                       |
