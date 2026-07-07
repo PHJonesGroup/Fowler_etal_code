@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import os
 from collections import Counter
 
-def plot_grna_distribution(gg, rep_pairs, output_dir):
+def plot_grna_distribution(gg, output_dir):
     counts = Counter(gg)                       # {gRNA_count: number_of_genes}
     d = max(gg)
     x = list(range(1, d + 1))
