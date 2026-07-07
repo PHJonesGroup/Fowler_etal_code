@@ -4,10 +4,9 @@ from .compute_hiss_LFC_rep12 import compute_hiss_LFC_rep12
 from .distri_target_contr_plots_all import distri_target_contr_plots_all
 import numpy as np
 import pandas as pd 
-def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond1, cond2, rep_pairs, output_dir):
+def separate_target_control(st, en, step, T_norm_indiv, zGE, pat1, pat2, cond1, cond2, rep_pairs, output_dir):
     """
     Parameters:
-    - d: dataset used in zGE_target_distri
     - st, en, step: for histogram binning
     - T_norm_indiv: full normalized gRNA table
     - zGE: list (table-like) of zGE genes (first column = gene names)
@@ -73,7 +72,7 @@ def separate_target_control(d, st, en, step, T_norm_indiv, zGE, pat1, pat2, cond
             his1z, perc1z, his2z, perc2z, hisFMz, percFMz,
             his1t, perc1t, his2t, perc2t, hisFMt, percFMt,
             gzn
-        ) = zGE_target_distri(d, genes_nnt, zGE_genes, indiv_noChr_noNT, st, en, step)
+        ) = zGE_target_distri(genes_nnt, zGE_genes, indiv_noChr_noNT, st, en, step)
 
         # collapse two-series -> single series (single averaged LFC)
         hisz, percz = his1z, perc1z

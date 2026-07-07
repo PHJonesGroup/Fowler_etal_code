@@ -44,7 +44,6 @@ input_counts = Path(config["input_counts"])
 input_controls = config.get("input_controls")
 output_dir = Path(config["output_dir"])
 index_scheme = config["index_scheme"]
-d = config["d"]
 rep = config["rep"]
 keep_counts = config["keep_counts"]
 control = config["control"]
@@ -145,7 +144,7 @@ dup_gRNAs = T_norm_indiv[gRNA_col][T_norm_indiv[gRNA_col].duplicated()]
         bin, hisz, percz, hisFMz, percFMz,
         hist, perct, hisFMt, percFMt, gzn
 ) = separate_target_control.separate_target_control(
-    d, st, en, step,
+    st, en, step,
     T_norm_indiv, zGE,
     pat1, pat2, cond1, cond2, rep_pairs, output_dir
 )

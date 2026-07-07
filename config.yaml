@@ -6,8 +6,6 @@ output_dir : "test_ouput/"
 index_scheme : 2  # 2 if two conditions; 1 if only one condition
 keep_counts : [1, 4, 10] #number of gRNAs expected per genes
 control : "Intergenic" # choice between Intergenic, Non-targetting or zGE
-
-d       : 10  # number of gRNAs per gene
 rep     : 4 # number of replicates per condition
 alf     : 0.06  # significance level of right-left tail of distribution
 

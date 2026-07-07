@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd 
 
-def zGE_target_distri(d, genes_nnt, zGE_genes, T_norm, st, en, step):
+def zGE_target_distri(genes_nnt, zGE_genes, T_norm, st, en, step):
     """
     Separate zGE and non-zGE target genes and compute LFC distributions.
     """
