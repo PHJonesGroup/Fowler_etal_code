@@ -8,7 +8,6 @@ This pipeline is designed to find significant gRNA enrichment/depletion accounti
 This package has been tested on:
 - macOS: Tahoe (26.5.1)
 - Linux: Ubuntu 22.04 LTS
-- Windows: 11
 
 ### Software Dependencies
 - Python 3.13.5
@@ -30,7 +29,7 @@ cd Fowler_et_al/
 Create and activate a virtual environment:
 ```
 python -m venv venv
-source venv/bin/activate      # On Windows: venv\Scripts\activate
+source venv/bin/activate
 ```
 
 Install dependencies:
@@ -67,24 +66,15 @@ To run on your own data:
 ### Outputs
 | File Name        | Description                                       |
 |------------------|---------------------------------------------------|
-| `distri_separate_target_controls_{condition_name1/2}.png`   | Individual LFC distributions of non-targetting, zero expressed, intergenic and target genes                        | 
-| `distri_target_controls_{condition_name1/2}.png`   | Overlay of LFC distributions of non-targetting, zero expressed, intergenic and target genes                            | 
-| `distri_zGE_{condition_name1/2}.png`   | Zero Gene Expression distribution of LFC, Z-corrected LFC and MZ-corrected LFC                           | 
+| `distri_separate_target_controls_{condition_name1_2}.png`   | Individual LFC distributions of non-targetting, zero expressed, intergenic and target genes                        | 
+| `distri_target_controls_{condition_name1_2}.png`   | Overlay of LFC distributions of non-targetting, zero expressed, intergenic and target genes                            | 
+| `distri_zGE_{condition_name1_2}.png`   | Zero Gene Expression distribution of LFC, Z-corrected LFC and MZ-corrected LFC (optional if zGE list given)                          | 
 | `gene_distribution_gRNA.png`   | Number of gRNAs attributed to each gene                      | 
 | `gRNA_counts_normalisation.png`   | Total raw (top) and normalised (bottom) read count summed over all gRNAs in each condition                            | 
 | `normalised_counts_mean_med.png`   | Mean versus median of the normalised gRNA counts for each of condition                           | 
-| `p_controls_zGE_{condition_name1+2}.png`   | P-value curve for zero expressed gRNAs                            | 
-| `p_distri_targ_cont_{condition_name1/2}.png`   | Control-calibrated p-value curves of target vs control gRNAs                           | 
-| `target_distri_LFC_Z_corr_Intergenic.png`   | LFC and Z-corrected LFC gRNA distribution for intergenic genes                           |                            | 
-| `target_distri_LFC_Z_corr_Non_Targetting.png`   | LFC and Z-corrected LFC gRNA distribution for non-targetting genes                           |                             | 
-| `target_distri_LFC_Z_corr_Target_genes.png`   | LFC and Z-corrected LFC gRNA distribution for target genes                           | 
-| `volcano_gRNA_{condition_name1/2}.png`   | Volcano plot on gRNA and gene level                            | 
-| `volcano_plot_interactive_{condition_name1/2}.html`   | Interactive volcano plot on gRNA and gene  CSV                            | 
+| `p_controls_zGE_{condition_name1_2}.png`   | P-value curve for zero expressed gRNAs (optional if zGE list given)                        | 
+| `p_distri_targ_cont_{condition_name1_2}.png`   | Control-calibrated p-value curves of target vs control gRNAs                           |  
 | `normalised_counts.csv`   | Normalised counts in csv format                            | 
-| `NT_{condition_name1/2}_gRNA.csv`   | LFC, Z-corrected LFC, q-value, condition table for non-targetting genes                            | 
-| `intergenic_{condition_name1/2}_gRNA.csv `   | LFC, Z-corrected LFC, q-value, condition table for intergenic genes                            | 
-| `target_{condition_name1/2}_gRNA.csv`   | LFC, Z-corrected LFC, q-value, condition table for target genes                            | 
-
 
 ## Pipeline Steps
 ### Module 1
@@ -96,4 +86,3 @@ Compute mean and median of normalised counts <br />
 Compute and analyse LFC distributions of targets and controls (target, intergenic and zero expressed genes) <br />
 Compute q-values, critical values, mean and standard deviation for zero expressed genes controls. <br />
 Compute z for targets and all controls, based on mean and standard deviation of zero expressed genes and controls. <br />
-Determine significant gRNA enrichment/depletion accounting for both FDR and FNR rates <br />
