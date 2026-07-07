@@ -87,7 +87,7 @@ T_vert = T_vert[keep]
 # Counts how many times each gene name/intergenic name occurs in the raw count file & gives number of gRNA per gene/ intergenic
 gene_names = gene
 ggenes, gg, ind_gn = count_vertical_names.count_vertical_names(gene_names)
-plot_grna_distribution.plot_grna_distribution(gg,d, output_dir)
+plot_grna_distribution.plot_grna_distribution(gg, output_dir)
 
 # -------------------- 1.2 --------------------
 # Removes genes with incorrect number of gRNAs
