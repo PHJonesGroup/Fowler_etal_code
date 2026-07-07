@@ -109,7 +109,6 @@ T_norm_WT.to_csv(os.path.join(output_dir, 'normalised_counts.csv'), index=False)
 
 norm_tab = T_norm_WT.copy()
 column_labels = norm_tab.columns.tolist()
-num_gRNA = d
 
 # ============================ MODULE 2 ============================
 T_norm_indiv = T_norm_WT.copy()
