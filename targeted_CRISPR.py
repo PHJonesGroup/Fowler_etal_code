@@ -43,7 +43,6 @@ config = load_config(args.config)
 input_counts = Path(config["input_counts"])
 input_controls = config.get("input_controls")
 output_dir = Path(config["output_dir"])
-index_scheme = config["index_scheme"]
 rep = config["rep"]
 keep_counts = config["keep_counts"]
 control = config["control"]

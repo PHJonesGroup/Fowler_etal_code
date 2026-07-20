@@ -53,7 +53,6 @@ To run on your own data:
 | `input_counts`   | Path to the counts CSV                            | `demo_data/WT_....csv`   |
 | `input_controls` | Path to the control genes CSV (optional)                  | `demo_data/genes_....csv`|
 | `output_dir`     | Directory where results are written              | `output`                 |
-| `index_scheme`   | 2 = use both replicates; 1 = single replicate    | `2`                      |
 | `rep`   | Number of replicates per condition    | `4`                      |
 | `keep_counts`   | Number of gRNAs expected per genes    | `[1, 4, 10]`                      |
 | `control`   |  Baseline against which targeted genes distribution is compared against. Choose between Intergenic, Non-targetting or zGE   | `Non-targetting`                      |
