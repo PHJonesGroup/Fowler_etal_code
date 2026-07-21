@@ -95,7 +95,7 @@ ind_keep = sum((groups[c]["ind"] for c in keep_counts if c in groups), [])
 raw_ind_f = T_vert.iloc[ind_keep, :].reset_index(drop=True)
 
 # -------------------- 1.3 --------------------
-# Normalise (FPKM) counts as percentage within a column
+# Normalise (CPM) counts as percentage within a column
 norm_dat = normalise_prop.normalise_prop(ssc, raw_ind_f, rep, output_dir) 
 # -------------------- 1.4 --------------------
 # Format normalised counts, compute mean and median of normalised counts
