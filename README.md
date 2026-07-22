@@ -59,6 +59,7 @@ To run on your own data:
 | `alf`            | Significance level (tail of the distribution)     | `0.06`                   |
 | `pat1`, `pat2`   | String patterns used to filter genes              | `'chr'`, `'Non'`         |
 | `cond1`, `cond2` | Condition labels              | `'T1'`, `'T0'`             |
+| `rep_pairs`| Replicates names              | `['60159','60160','60161','60162']`             |
 | `st`            | Start of x axis     | `-10`                   |
 | `end`            | End of x axis     | `10`                   |
 | `step`            | Bin sizes     | `0.05`                   |
