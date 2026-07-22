@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Fowler_et_al"
+abstract: >-
+  This pipeline is designed to find significant gRNA enrichment/depletion accounting for both FDR and FNR rates. This is achieved by calculating the likelihood of the observed gRNA fold change for each gene differing from the distribution of the set of true neutral control gRNAs in the screen.
+type: software
+authors:
+  - given-names: "Salomé"
+    family-names: "Brunon"
+    orcid: "https://orcid.org/0009-0002-1487-7922"
+    affiliation: "Wellcome Sanger Institute"
+  - given-names: "Irina"
+    family-names: "Abnizova"
+    orcid: "https://orcid.org/0000-0002-8460-8210"
+    affiliation: "Wellcome Sanger Institute"
+license: MIT
+repository-code: "https://github.com/PHJonesGroup/Fowler_etal_code/"
+url: "https://github.com/PHJonesGroup/Fowler_etal_code/"
+version: "1.0.0"
+date-released: "2026-07-22"
+keywords:
+  - CRISPR
+  - bioinformatics
